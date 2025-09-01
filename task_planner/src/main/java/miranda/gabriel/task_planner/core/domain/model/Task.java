@@ -1,4 +1,4 @@
-package miranda.gabriel.task_planner.core.domain;
+package miranda.gabriel.task_planner.core.domain.model;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -6,11 +6,22 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import miranda.gabriel.task_planner.core.domain.enums.TaskStatus;
+
 public class Task {
 
     public Task(Long id, String name, ActivityBoard board, Image image, Address address, String description,
             LocalDate date, LocalTime startTime, LocalTime endTime, LocalDateTime createdAt, LocalDateTime updatedAt,
-            Status status, List<TaskLog> taskLogs) {
+            TaskStatus status, List<TaskLog> taskLogs) {
+
+        if(startTime.isBefore(board.getMessageTime())){
+            throw new IllegalArgumentException("Board message time needs to be earlier than any task of the day");
+        }
+        
+        if (endTime.isBefore(startTime)) {
+            throw new IllegalArgumentException("Task cannot end before it starts");
+        }
+
         this.id = id;
         this.name = name;
         this.board = board;
@@ -48,15 +59,9 @@ public class Task {
 
     private LocalDateTime updatedAt;
 
-    private Status status;
+    private TaskStatus status;
 
     private List<TaskLog> taskLogs = new ArrayList<>();
-
-    private enum Status{
-        CONFIRMED,
-        PENDING,
-        CANCELLED
-    }
 
     public Long getId() {
         return id;
@@ -142,11 +147,11 @@ public class Task {
         this.updatedAt = updatedAt;
     }
 
-    public Status getStatus() {
+    public TaskStatus getStatus() {
         return status;
     }
 
-    public void setStatus(Status status) {
+    public void setStatus(TaskStatus status) {
         this.status = status;
     }
 

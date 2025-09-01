@@ -1,4 +1,4 @@
-package miranda.gabriel.task_planner.core.domain;
+package miranda.gabriel.task_planner.core.domain.model;
 
 import java.time.LocalDateTime;
 
@@ -82,7 +82,4 @@ public class TaskLog {
     public void setScore(Integer score) {
         this.score = score;
     }
-
-    
-
 }

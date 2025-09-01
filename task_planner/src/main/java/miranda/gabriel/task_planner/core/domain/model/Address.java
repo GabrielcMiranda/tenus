@@ -1,9 +1,12 @@
-package miranda.gabriel.task_planner.core.domain;
+package miranda.gabriel.task_planner.core.domain.model;
 
 public class Address {
 
     public Address(Long id, String street, Long number, String neighbourhood, String city, String state, String zipCode,
             String complement, Double latitude, Double longitude) {
+        if (zipCode == null || zipCode.length() < 8) {
+            throw new IllegalArgumentException("invalid zipcode");
+        }
         this.id = id;
         this.street = street;
         this.number = number;
@@ -112,6 +115,8 @@ public class Address {
         this.longitude = longitude;
     }
 
-    
+    public String fullAddress() {
+        return street + ", " + number + " - " + neighbourhood + ", " + city + "/" + state;
+    }
 
 }

@@ -1,13 +1,17 @@
-package miranda.gabriel.task_planner.core.domain;
+package miranda.gabriel.task_planner.core.domain.model;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import miranda.gabriel.task_planner.core.domain.enums.UserRole;
+import miranda.gabriel.task_planner.core.domain.vo.Email;
+import miranda.gabriel.task_planner.core.domain.vo.Phone;
+
 public class User {
 
-    public User(UUID id, String username, String email, String password, String phone, Role role,
+    public User(UUID id, String username, Email email, String password, Phone phone, UserRole role,
             LocalDateTime createdAt, LocalDateTime updatedAt, List<ActivityBoard> boards) {
         this.id = id;
         this.username = username;
@@ -24,13 +28,13 @@ public class User {
 
     private String username;
 
-    private String email;
+    private Email email;
 
     private String password;
 
-    private String phone;
+    private Phone phone;
 
-    private Role role;
+    private UserRole role;
 
     private LocalDateTime createdAt;
 
@@ -50,11 +54,11 @@ public class User {
         this.username = username;
     }
 
-    public String getEmail() {
+    public Email getEmail() {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(Email email) {
         this.email = email;
     }
 
@@ -66,19 +70,19 @@ public class User {
         this.password = password;
     }
 
-    public String getPhone() {
+    public Phone getPhone() {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public void setPhone(Phone phone) {
         this.phone = phone;
     }
 
-    public Role getRole() {
+    public UserRole getRole() {
         return role;
     }
 
-    public void setRole(Role role) {
+    public void setRole(UserRole role) {
         this.role = role;
     }
 
