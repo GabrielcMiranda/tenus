@@ -1,12 +1,14 @@
 package miranda.gabriel.task_planner.core.domain;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 public class User {
 
     public User(UUID id, String username, String email, String password, String phone, Role role,
-            LocalDateTime createdAt, LocalDateTime updatedAt) {
+            LocalDateTime createdAt, LocalDateTime updatedAt, List<ActivityBoard> boards) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -15,6 +17,7 @@ public class User {
         this.role = role;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
+        this.boards = boards;
     }
 
     private final UUID id;
@@ -32,6 +35,8 @@ public class User {
     private LocalDateTime createdAt;
 
     private LocalDateTime updatedAt;
+
+    private List<ActivityBoard> boards = new ArrayList<>();
 
     public UUID getId() {
         return id;
@@ -93,5 +98,12 @@ public class User {
         this.updatedAt = updatedAt;
     }
 
+    public List<ActivityBoard> getBoards() {
+        return boards;
+    }
+
+    public void setBoards(List<ActivityBoard> boards) {
+        this.boards = boards;
+    }
     
 }
