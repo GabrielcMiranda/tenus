@@ -12,12 +12,12 @@ public class Task {
 
     public Task(Long id, String name, ActivityBoard board, Image image, Address address, String description,
             LocalDate date, LocalTime startTime, LocalTime endTime, LocalDateTime createdAt, LocalDateTime updatedAt,
-            TaskStatus status, List<TaskLog> taskLogs) {
+            TaskStatus status, List<TaskLog> taskLogs, Boolean completed) {
 
         if(startTime.isBefore(board.getMessageTime())){
             throw new IllegalArgumentException("Board message time needs to be earlier than any task of the day");
         }
-        
+
         if (endTime.isBefore(startTime)) {
             throw new IllegalArgumentException("Task cannot end before it starts");
         }
@@ -35,6 +35,7 @@ public class Task {
         this.updatedAt = updatedAt;
         this.status = status;
         this.taskLogs = taskLogs;
+        this.completed = completed;
     }
 
     private final Long id;
@@ -60,6 +61,8 @@ public class Task {
     private LocalDateTime updatedAt;
 
     private TaskStatus status;
+
+    private Boolean completed;
 
     private List<TaskLog> taskLogs = new ArrayList<>();
 
@@ -163,5 +166,12 @@ public class Task {
         this.taskLogs = taskLogs;
     }
 
+    public Boolean getCompleted() {
+        return completed;
+    }
+
+    public void setCompleted(Boolean completed) {
+        this.completed = completed;
+    }
     
 }
