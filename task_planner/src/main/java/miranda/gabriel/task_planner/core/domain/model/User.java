@@ -12,8 +12,7 @@ import miranda.gabriel.task_planner.core.domain.vo.Phone;
 public class User {
 
     public User(UUID id, String username, Email email, String password, Phone phone, UserRole role,
-            LocalDateTime createdAt, LocalDateTime updatedAt, List<ActivityBoard> boards,
-            Integer score) {
+            LocalDateTime createdAt, LocalDateTime updatedAt, Integer score) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -22,8 +21,7 @@ public class User {
         this.role = role;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.boards = boards;
-        this.score = score;
+        this.score = 0;
     }
 
     private final UUID id;
