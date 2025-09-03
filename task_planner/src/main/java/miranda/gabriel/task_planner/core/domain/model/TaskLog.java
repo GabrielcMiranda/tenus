@@ -7,14 +7,14 @@ public class TaskLog {
     
 
     public TaskLog(Long id, Task task, Image image, Address address, String description, LocalDateTime logTime,
-            Integer score) {
+            Integer points) {
         this.id = id;
         this.task = task;
         this.image = image;
         this.address = address;
         this.description = description;
         this.logTime = logTime;
-        this.score = score;
+        this.points = points;
     }
 
     private final Long id;
@@ -29,7 +29,7 @@ public class TaskLog {
 
     private LocalDateTime logTime;
 
-    private Integer score;
+    private Integer points;
 
     public Long getId() {
         return id;
@@ -75,11 +75,11 @@ public class TaskLog {
         this.logTime = logTime;
     }
 
-    public Integer getScore() {
-        return score;
+    public Integer getPoints() {
+        return points;
     }
 
-    public void setScore(Integer score) {
-        this.score = score;
+    public void setPoints(Integer points) {
+        this.points = points;
     }
 }
