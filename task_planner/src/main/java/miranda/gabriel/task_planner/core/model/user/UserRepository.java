@@ -1,0 +1,21 @@
+package miranda.gabriel.task_planner.core.model.user;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
+
+public interface UserRepository {
+
+    Optional<User> findById(UUID id);
+
+    Optional<User> findByusername(String username);
+
+    User save(User user);
+
+    List<User> listAll();
+
+    boolean existsByusername(String username);
+
+    boolean existsByEmail(String email);
+
+}

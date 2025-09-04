@@ -97,6 +97,5 @@ public class ActivityBoard {
     public void setTasks(List<Task> tasks) {
         this.tasks = tasks;
     }
-
     
 }

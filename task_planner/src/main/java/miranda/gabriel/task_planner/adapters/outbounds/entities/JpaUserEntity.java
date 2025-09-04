@@ -54,5 +54,5 @@ public class JpaUserEntity {
         mappedBy = "owner",
         cascade = CascadeType.ALL,
         orphanRemoval = true )
-    private List<JpaActivityBoardEntity> boards = new ArrayList<>();
+    private List<JpaActivityBoardEntity> boards = new ArrayList<>(); 
 }
