@@ -1,4 +1,4 @@
-package miranda.gabriel.task_planner.core.domain.model;
+package miranda.gabriel.task_planner.core.model.task;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -6,7 +6,11 @@ import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
-import miranda.gabriel.task_planner.core.domain.enums.TaskStatus;
+import miranda.gabriel.task_planner.core.enums.TaskStatus;
+import miranda.gabriel.task_planner.core.model.activity_board.ActivityBoard;
+import miranda.gabriel.task_planner.core.model.address.Address;
+import miranda.gabriel.task_planner.core.model.image.Image;
+import miranda.gabriel.task_planner.core.model.task_log.TaskLog;
 
 public class Task {
 

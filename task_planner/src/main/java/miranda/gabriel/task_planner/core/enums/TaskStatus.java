@@ -1,4 +1,4 @@
-package miranda.gabriel.task_planner.core.domain.enums;
+package miranda.gabriel.task_planner.core.enums;
 
 public enum TaskStatus {
     CONFIRMED,

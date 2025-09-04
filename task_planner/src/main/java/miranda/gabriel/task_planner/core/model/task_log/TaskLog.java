@@ -1,6 +1,10 @@
-package miranda.gabriel.task_planner.core.domain.model;
+package miranda.gabriel.task_planner.core.model.task_log;
 
 import java.time.LocalDateTime;
+
+import miranda.gabriel.task_planner.core.model.address.Address;
+import miranda.gabriel.task_planner.core.model.image.Image;
+import miranda.gabriel.task_planner.core.model.task.Task;
 
 public class TaskLog {
 

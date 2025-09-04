@@ -14,9 +14,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
-import miranda.gabriel.task_planner.core.domain.enums.UserRole;
-import miranda.gabriel.task_planner.core.domain.vo.Email;
-import miranda.gabriel.task_planner.core.domain.vo.Phone;
+import miranda.gabriel.task_planner.core.enums.UserRole;
+import miranda.gabriel.task_planner.core.vo.Email;
+import miranda.gabriel.task_planner.core.vo.Phone;
 
 @Entity
 @Table(name = "user")

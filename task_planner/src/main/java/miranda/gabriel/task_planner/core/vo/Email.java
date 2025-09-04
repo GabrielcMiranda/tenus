@@ -1,4 +1,4 @@
-package miranda.gabriel.task_planner.core.domain.vo;
+package miranda.gabriel.task_planner.core.vo;
 
 import java.util.Objects;
 

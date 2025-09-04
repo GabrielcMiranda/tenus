@@ -17,7 +17,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
-import miranda.gabriel.task_planner.core.domain.enums.TaskStatus;
+import miranda.gabriel.task_planner.core.enums.TaskStatus;
 
 @Entity
 @Table(name = "task")

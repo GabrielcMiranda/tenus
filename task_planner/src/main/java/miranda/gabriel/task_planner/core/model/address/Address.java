@@ -1,4 +1,4 @@
-package miranda.gabriel.task_planner.core.domain.model;
+package miranda.gabriel.task_planner.core.model.address;
 
 public class Address {
 

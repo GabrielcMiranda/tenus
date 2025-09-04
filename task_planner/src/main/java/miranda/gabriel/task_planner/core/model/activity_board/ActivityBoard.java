@@ -1,9 +1,13 @@
-package miranda.gabriel.task_planner.core.domain.model;
+package miranda.gabriel.task_planner.core.model.activity_board;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import miranda.gabriel.task_planner.core.model.image.Image;
+import miranda.gabriel.task_planner.core.model.task.Task;
+import miranda.gabriel.task_planner.core.model.user.User;
 
 public class ActivityBoard {
 

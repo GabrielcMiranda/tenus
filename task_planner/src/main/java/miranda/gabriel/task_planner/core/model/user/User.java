@@ -1,13 +1,14 @@
-package miranda.gabriel.task_planner.core.domain.model;
+package miranda.gabriel.task_planner.core.model.user;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import miranda.gabriel.task_planner.core.domain.enums.UserRole;
-import miranda.gabriel.task_planner.core.domain.vo.Email;
-import miranda.gabriel.task_planner.core.domain.vo.Phone;
+import miranda.gabriel.task_planner.core.enums.UserRole;
+import miranda.gabriel.task_planner.core.model.activity_board.ActivityBoard;
+import miranda.gabriel.task_planner.core.vo.Email;
+import miranda.gabriel.task_planner.core.vo.Phone;
 
 public class User {
 
