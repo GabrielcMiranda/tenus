@@ -12,7 +12,7 @@ public class Task {
 
     public Task(Long id, String name, ActivityBoard board, Image image, Address address, String description,
             LocalDate date, LocalTime startTime, LocalTime endTime, LocalDateTime createdAt, LocalDateTime updatedAt,
-            TaskStatus status, List<TaskLog> taskLogs, Boolean completed) {
+            TaskStatus status,Boolean completed) {
 
         if(startTime.isBefore(board.getMessageTime())){
             throw new IllegalArgumentException("Board message time needs to be earlier than any task of the day");
@@ -34,7 +34,6 @@ public class Task {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.status = status;
-        this.taskLogs = taskLogs;
         this.completed = completed;
     }
 

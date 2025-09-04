@@ -13,6 +13,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
@@ -36,10 +37,11 @@ public class JpaTaskEntity {
     private JpaActivityBoardEntity board;
 
     @OneToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "image_id")
+    @JoinColumn(name = "image_id", unique = true)
     private JpaImageEntity image;
 
-    @Column(nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "address_id")
     private JpaAddressEntity address;
 
     private String description;
@@ -63,5 +65,8 @@ public class JpaTaskEntity {
     @Column(nullable = false)
     private Boolean completed;
 
+    @OneToMany(
+        mappedBy = "task"
+    )
     private List<JpaTaskLogEntity> taskLogs;
 }

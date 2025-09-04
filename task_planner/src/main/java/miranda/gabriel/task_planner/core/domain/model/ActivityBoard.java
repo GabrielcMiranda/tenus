@@ -8,7 +8,7 @@ import java.util.List;
 public class ActivityBoard {
 
     public ActivityBoard(Long id, String name, User owner, Image image, LocalTime messageTime, LocalDateTime createdAt,
-            LocalDateTime updatedAt, List<Task> tasks) {
+            LocalDateTime updatedAt) {
         this.id = id;
         this.name = name;
         this.owner = owner;
@@ -16,7 +16,6 @@ public class ActivityBoard {
         this.messageTime = messageTime;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
-        this.tasks = tasks;
     }
 
     private final Long id;
