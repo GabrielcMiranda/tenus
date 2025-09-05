@@ -1,10 +1,8 @@
 package miranda.gabriel.task_planner.adapters.outbounds.repositories.implementations;
 
-import java.net.http.HttpResponse;
 import java.util.List;
 import java.util.Optional;
-
-import org.springframework.http.HttpStatus;
+import java.util.UUID;
 
 import miranda.gabriel.task_planner.adapters.outbounds.entities.JpaUserEntity;
 import miranda.gabriel.task_planner.adapters.outbounds.repositories.JpaUserRepository;
@@ -32,7 +30,30 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public List<User> listAll(){
-        return jpaUserRepository.findAll()
+        var users = jpaUserRepository.findAll()
             .stream().map(user -> userMapper.toDomain(user)).toList();
+        return users;
+    }
+
+    @Override
+    public Optional<User> findByUsername(String username){
+        var userEntity = jpaUserRepository.findByUsername(username);
+        return userEntity.map(user -> userMapper.toDomain(user));
+    }
+
+    @Override
+    public Optional<User> findById(UUID id){
+        var userEntity = jpaUserRepository.findById(id);
+        return userEntity.map(user -> userMapper.toDomain(user));
+    }
+
+    @Override
+    public boolean existsByUsername(String username){
+        return jpaUserRepository.existsByUsername(username);
+    }
+
+    @Override
+    public boolean existsByEmail(String email){
+        return jpaUserRepository.existsByEmail(email);
     }
 }

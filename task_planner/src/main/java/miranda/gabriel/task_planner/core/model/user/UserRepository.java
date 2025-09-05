@@ -8,13 +8,13 @@ public interface UserRepository {
 
     Optional<User> findById(UUID id);
 
-    Optional<User> findByusername(String username);
+    Optional<User> findByUsername(String username);
 
     User save(User user);
 
     List<User> listAll();
 
-    boolean existsByusername(String username);
+    boolean existsByUsername(String username);
 
     boolean existsByEmail(String email);
 
