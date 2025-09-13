@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
-import miranda.gabriel.task_planner.adapters.outbounds.entities.JpaUserEntity;
+import org.springframework.stereotype.Repository;
+
 import miranda.gabriel.task_planner.adapters.outbounds.repositories.JpaUserRepository;
 import miranda.gabriel.task_planner.core.model.user.User;
 import miranda.gabriel.task_planner.core.model.user.UserRepository;
 import miranda.gabriel.task_planner.utils.mappers.UserMapper;
 
+@Repository
 public class UserRepositoryImpl implements UserRepository {
 
     private final JpaUserRepository jpaUserRepository;
