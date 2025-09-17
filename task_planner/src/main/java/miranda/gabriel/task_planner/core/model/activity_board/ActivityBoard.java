@@ -22,7 +22,7 @@ public class ActivityBoard {
         this.updatedAt = updatedAt;
     }
 
-    private final Long id;
+    private Long id;
 
     private String name;
 

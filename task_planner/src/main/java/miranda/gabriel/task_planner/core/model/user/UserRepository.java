@@ -18,4 +18,6 @@ public interface UserRepository {
 
     boolean existsByEmail(String email);
 
+    boolean existsByPhone(String phone);
+
 }

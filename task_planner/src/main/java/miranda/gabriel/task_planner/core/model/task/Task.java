@@ -41,7 +41,7 @@ public class Task {
         this.completed = completed;
     }
 
-    private final Long id;
+    private Long id;
 
     private String name;
 

@@ -12,20 +12,11 @@ import miranda.gabriel.task_planner.core.vo.Phone;
 
 public class User {
 
-    public User(UUID id, String username, Email email, String password, Phone phone, UserRole role,
-            LocalDateTime createdAt, LocalDateTime updatedAt, Integer score) {
-        this.id = id;
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.phone = phone;
-        this.role = role;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.score = 0;
+    public User(){
+        
     }
 
-    private final UUID id;
+    private UUID id;
 
     private String username;
 

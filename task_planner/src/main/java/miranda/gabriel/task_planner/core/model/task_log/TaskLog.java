@@ -21,7 +21,7 @@ public class TaskLog {
         this.points = points;
     }
 
-    private final Long id;
+    private Long id;
 
     private Task task;
 

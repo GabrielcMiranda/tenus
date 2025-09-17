@@ -11,7 +11,7 @@ public class Image {
         this.updatedAt = updatedAt;
     }
 
-    private final Long id;
+    private Long id;
 
     private String imageUri;
 

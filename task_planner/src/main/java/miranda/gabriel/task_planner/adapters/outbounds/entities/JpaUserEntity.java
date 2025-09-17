@@ -26,7 +26,7 @@ public class JpaUserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "user_id")
-    private final UUID id;
+    private UUID id;
 
     @Column(nullable = false, unique = true)
     private String username;

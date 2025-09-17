@@ -19,7 +19,7 @@ public class Address {
         this.longitude = longitude;
     }
 
-    private final Long id;
+    private Long id;
 
     private String street;
 
