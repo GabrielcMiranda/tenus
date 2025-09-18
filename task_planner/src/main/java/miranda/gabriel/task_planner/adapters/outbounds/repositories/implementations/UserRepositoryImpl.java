@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import miranda.gabriel.task_planner.adapters.outbounds.repositories.JpaUserRepository;
 import miranda.gabriel.task_planner.core.model.user.User;
 import miranda.gabriel.task_planner.core.model.user.UserRepository;
+import miranda.gabriel.task_planner.core.vo.Email;
 import miranda.gabriel.task_planner.utils.mappers.UserMapper;
 
 @Repository
@@ -40,6 +41,13 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public Optional<User> findByUsername(String username){
         var userEntity = jpaUserRepository.findByUsername(username);
+        return userEntity.map(user -> userMapper.toDomain(user));
+    }
+
+    //dar uma olhada nisso aqui
+    @Override 
+    public Optional<User> findByEmail(String email){
+        var userEntity = jpaUserRepository.findByEmail(new Email(email));
         return userEntity.map(user -> userMapper.toDomain(user));
     }
 

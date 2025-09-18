@@ -1,6 +1,7 @@
 package miranda.gabriel.task_planner.application.services;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -14,8 +15,10 @@ import miranda.gabriel.task_planner.application.usecases.AuthUseCases;
 import miranda.gabriel.task_planner.core.enums.UserRole;
 import miranda.gabriel.task_planner.core.model.user.SignUpRequestDTO;
 import miranda.gabriel.task_planner.core.model.user.User;
+import miranda.gabriel.task_planner.core.model.user.UserRequestDTO;
 import miranda.gabriel.task_planner.core.vo.Email;
 import miranda.gabriel.task_planner.core.vo.Phone;
+import miranda.gabriel.task_planner.utils.mappers.UserMapper;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +26,7 @@ public class AuthServiceImpl implements AuthUseCases{
 
     private final UserRepositoryImpl userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserMapper userMapper;
 
     @Transactional
     public User register(SignUpRequestDTO dto){
@@ -51,5 +55,19 @@ public class AuthServiceImpl implements AuthUseCases{
         if (exists){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "username, email, or password are already been used");
         }
+    }
+
+    private Optional<User> validateLogin(UserRequestDTO dto){
+        var user = userRepository.findByUsername(dto.login())
+            .or(() -> userRepository.findByEmail(dto.login()));
+        
+        if(user.isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "user not found");
+        }
+        else if (userMapper.toEntity(user.get()).isLoginCorrect(dto.password(), bCryptPasswordEncoder)){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid user or password");
+        }
+
+        return user;
     }
 }
