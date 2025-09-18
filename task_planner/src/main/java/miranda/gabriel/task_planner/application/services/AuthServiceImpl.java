@@ -41,8 +41,7 @@ public class AuthServiceImpl implements AuthUseCases{
         user.setScore(0);
 
         return userRepository.save(user);
-
-
+        
     }
 
     private void validateUserRegistration(String user, String email, String phone){
