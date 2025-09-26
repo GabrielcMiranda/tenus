@@ -7,8 +7,10 @@ import java.util.UUID;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import jakarta.persistence.AttributeOverride;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -21,25 +23,33 @@ import miranda.gabriel.task_planner.core.vo.Email;
 import miranda.gabriel.task_planner.core.vo.Phone;
 
 @Entity
-@Table(name = "user")
+@Table(name = "users")
 @Data
 public class JpaUserEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.UUID)
     @Column(name = "user_id")
     private UUID id;
 
     @Column(nullable = false, unique = true)
     private String username;
 
-    @Column(nullable = false, unique = true)
+    @Embedded
+    @AttributeOverride(
+        name = "value",
+        column = @Column(name = "email", nullable = false, unique = true)
+    )
     private Email email;
 
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false, unique = true)
+    @Embedded
+    @AttributeOverride(
+        name = "value",
+        column = @Column(name = "phone", nullable = false, unique = true)
+    )
     private Phone phone;
 
     @Column(nullable = false)

@@ -25,7 +25,7 @@ import miranda.gabriel.task_planner.core.enums.TaskStatus;
 public class JpaTaskEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "task_id")
     private Long id;
 

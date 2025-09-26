@@ -2,6 +2,8 @@ package miranda.gabriel.task_planner.core.vo;
 
 import java.util.Objects;
 
+import jakarta.persistence.Embeddable;
+@Embeddable
 public class Email {
 
     private String value;

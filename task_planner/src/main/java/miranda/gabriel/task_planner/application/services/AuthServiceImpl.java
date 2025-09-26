@@ -10,6 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import miranda.gabriel.task_planner.adapters.mappers.UserMapper;
 import miranda.gabriel.task_planner.adapters.outbounds.repositories.implementations.UserRepositoryImpl;
 import miranda.gabriel.task_planner.application.usecases.AuthUseCases;
 import miranda.gabriel.task_planner.core.enums.UserRole;
@@ -18,7 +19,6 @@ import miranda.gabriel.task_planner.core.model.user.User;
 import miranda.gabriel.task_planner.core.model.user.UserRequestDTO;
 import miranda.gabriel.task_planner.core.vo.Email;
 import miranda.gabriel.task_planner.core.vo.Phone;
-import miranda.gabriel.task_planner.utils.mappers.UserMapper;
 
 @Service
 @RequiredArgsConstructor

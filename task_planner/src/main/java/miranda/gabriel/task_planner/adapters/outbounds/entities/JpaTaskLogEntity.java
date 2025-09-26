@@ -20,7 +20,7 @@ import lombok.Data;
 public class JpaTaskLogEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "tasklog_id")
     private Long id;
 

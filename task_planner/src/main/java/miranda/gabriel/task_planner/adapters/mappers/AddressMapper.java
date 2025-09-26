@@ -1,4 +1,4 @@
-package miranda.gabriel.task_planner.utils.mappers;
+package miranda.gabriel.task_planner.adapters.mappers;
 
 import org.mapstruct.Mapper;
 
