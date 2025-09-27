@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import miranda.gabriel.task_planner.adapters.outbounds.entities.JpaUserEntity;
 import miranda.gabriel.task_planner.core.vo.Email;
+import miranda.gabriel.task_planner.core.vo.Phone;
 
 
 public interface JpaUserRepository extends JpaRepository<JpaUserEntity, UUID>{
@@ -17,7 +18,7 @@ public interface JpaUserRepository extends JpaRepository<JpaUserEntity, UUID>{
 
     boolean existsByUsername(String username);
 
-    boolean existsByEmail(String email);
+    boolean existsByEmail(Email email);
 
-    boolean existsByPhone(String phone);
+    boolean existsByPhone(Phone phone);
 }

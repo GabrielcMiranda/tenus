@@ -13,6 +13,7 @@ import miranda.gabriel.task_planner.adapters.outbounds.repositories.JpaUserRepos
 import miranda.gabriel.task_planner.core.model.user.User;
 import miranda.gabriel.task_planner.core.model.user.UserRepository;
 import miranda.gabriel.task_planner.core.vo.Email;
+import miranda.gabriel.task_planner.core.vo.Phone;
 
 @Repository
 @RequiredArgsConstructor
@@ -81,11 +82,11 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public boolean existsByEmail(String email){
-        return jpaUserRepository.existsByEmail(email);
+        return jpaUserRepository.existsByEmail(new Email(email));
     }
 
     @Override 
     public boolean existsByPhone(String phone){
-        return jpaUserRepository.existsByPhone(phone);
+        return jpaUserRepository.existsByPhone(new Phone(phone));
     }
 }

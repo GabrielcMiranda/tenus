@@ -8,6 +8,10 @@ public class Email {
 
     private String value;
 
+    protected Email(){
+        
+    }
+
     public Email(String value){
         if(value == null || !value.matches("^[\\w-.]+@([\\w-]+\\.)+[\\w-]{2,4}$")){
             throw new IllegalArgumentException("invalid email");

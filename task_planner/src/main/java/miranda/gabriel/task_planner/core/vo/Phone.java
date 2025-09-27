@@ -7,7 +7,11 @@ import jakarta.persistence.Embeddable;
 @Embeddable
 public class Phone {
 
-    private final String value;
+    private String value;
+
+    protected Phone(){
+
+    }
 
     public Phone(String value) {
         if (value == null || !value.matches("^\\+?[0-9]{10,15}$")) {
