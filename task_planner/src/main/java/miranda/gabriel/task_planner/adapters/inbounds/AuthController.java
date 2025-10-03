@@ -3,8 +3,10 @@ package miranda.gabriel.task_planner.adapters.inbounds;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import miranda.gabriel.task_planner.application.services.AuthServiceImpl;
+import miranda.gabriel.task_planner.application.jwt.TokenResponseDTO;
+import miranda.gabriel.task_planner.application.usecases.AuthUseCases;
 import miranda.gabriel.task_planner.core.model.user.SignUpRequestDTO;
+import miranda.gabriel.task_planner.core.model.user.UserRequestDTO;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequiredArgsConstructor
 public class AuthController {
 
-    private final AuthServiceImpl authService;
+    private final AuthUseCases authService;
 
     @PostMapping("/register")
     public ResponseEntity<Void> register(@RequestBody SignUpRequestDTO dto) {
@@ -26,5 +28,12 @@ public class AuthController {
         
         return ResponseEntity.ok().build();
     }
+
+    @PostMapping("/login")
+    public ResponseEntity<TokenResponseDTO> login (@RequestBody UserRequestDTO dto) {
+        var tokens = authService.login(dto);
+        return ResponseEntity.ok(tokens);
+    }
+    
 
 }

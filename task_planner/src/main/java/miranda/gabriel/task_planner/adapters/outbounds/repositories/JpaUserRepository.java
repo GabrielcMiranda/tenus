@@ -6,19 +6,19 @@ import java.util.UUID;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import miranda.gabriel.task_planner.adapters.outbounds.entities.JpaUserEntity;
-import miranda.gabriel.task_planner.core.vo.Email;
-import miranda.gabriel.task_planner.core.vo.Phone;
+import miranda.gabriel.task_planner.adapters.outbounds.entities.embedded.EmailEmbeddable;
+import miranda.gabriel.task_planner.adapters.outbounds.entities.embedded.PhoneEmbeddable;
 
 
 public interface JpaUserRepository extends JpaRepository<JpaUserEntity, UUID>{
 
     Optional<JpaUserEntity> findByUsername(String username);
 
-    Optional<JpaUserEntity> findByEmail(Email email);
+    Optional<JpaUserEntity> findByEmail(EmailEmbeddable email);
 
     boolean existsByUsername(String username);
 
-    boolean existsByEmail(Email email);
+    boolean existsByEmail(EmailEmbeddable email);
 
-    boolean existsByPhone(Phone phone);
+    boolean existsByPhone(PhoneEmbeddable phone);
 }

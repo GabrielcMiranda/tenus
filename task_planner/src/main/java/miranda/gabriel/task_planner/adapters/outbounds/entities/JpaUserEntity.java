@@ -21,8 +21,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
 import miranda.gabriel.task_planner.core.enums.UserRole;
-import miranda.gabriel.task_planner.core.vo.Email;
-import miranda.gabriel.task_planner.core.vo.Phone;
+import miranda.gabriel.task_planner.adapters.outbounds.entities.embedded.EmailEmbeddable;
+import miranda.gabriel.task_planner.adapters.outbounds.entities.embedded.PhoneEmbeddable;
 
 @Entity
 @Table(name = "users")
@@ -42,7 +42,7 @@ public class JpaUserEntity {
         name = "value",
         column = @Column(name = "email", nullable = false, unique = true)
     )
-    private Email email;
+    private EmailEmbeddable email;
 
     @Column(nullable = false)
     private String password;
@@ -52,7 +52,7 @@ public class JpaUserEntity {
         name = "value",
         column = @Column(name = "phone", nullable = false, unique = true)
     )
-    private Phone phone;
+    private PhoneEmbeddable phone;
 
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)

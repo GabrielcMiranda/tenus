@@ -8,11 +8,11 @@ import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
 import miranda.gabriel.task_planner.adapters.mappers.MapperService;
+import miranda.gabriel.task_planner.adapters.outbounds.entities.embedded.EmailEmbeddable;
+import miranda.gabriel.task_planner.adapters.outbounds.entities.embedded.PhoneEmbeddable;
 import miranda.gabriel.task_planner.adapters.outbounds.repositories.JpaUserRepository;
 import miranda.gabriel.task_planner.core.model.user.User;
 import miranda.gabriel.task_planner.core.model.user.UserRepository;
-import miranda.gabriel.task_planner.core.vo.Email;
-import miranda.gabriel.task_planner.core.vo.Phone;
 
 @Repository
 @RequiredArgsConstructor
@@ -25,8 +25,8 @@ public class UserRepositoryImpl implements UserRepository {
     @Override
     public User save(User user){
         var userEntity = mapperService.userToEntity(user);
-        jpaUserRepository.save(userEntity);
-        return user;
+        var savedEntity = jpaUserRepository.save(userEntity);
+        return mapperService.userToDomain(savedEntity);
     }
 
     @Override
@@ -45,7 +45,7 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override 
     public Optional<User> findByEmail(String email){
-        var userEntity = jpaUserRepository.findByEmail(new Email(email));
+        var userEntity = jpaUserRepository.findByEmail(new EmailEmbeddable(email));
         return userEntity.map(mapperService::userToDomain);
     }
 
@@ -62,11 +62,11 @@ public class UserRepositoryImpl implements UserRepository {
 
     @Override
     public boolean existsByEmail(String email){
-        return jpaUserRepository.existsByEmail(new Email(email));
+        return jpaUserRepository.existsByEmail(new EmailEmbeddable(email));
     }
 
     @Override 
     public boolean existsByPhone(String phone){
-        return jpaUserRepository.existsByPhone(new Phone(phone));
+        return jpaUserRepository.existsByPhone(new PhoneEmbeddable(phone));
     }
 }

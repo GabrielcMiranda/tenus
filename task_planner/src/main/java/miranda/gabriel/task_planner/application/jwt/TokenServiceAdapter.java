@@ -23,9 +23,6 @@ public class TokenServiceAdapter implements TokenServicePort{
 
     private final JwtEncoder jwtEncoder;
 
-    public static final Long ACCESS_EXPIRATION = 36000L;
-    public static final Long REFRESH_EXPIRATION = 604800L;
-
     public String generateAccessToken(User user){
 
         var now = Instant.now();
