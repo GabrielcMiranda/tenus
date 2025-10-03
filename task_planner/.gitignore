@@ -30,7 +30,10 @@ build/
 !**/src/test/**/build/
 
 ### VS Code ###
-.vscode/
+.vscode/launch.json
+.vscode/tasks.json
+.vscode/extensions.json
+# Keep settings.json for project-specific Java/MapStruct configuration
 
 ### resources ###
 application.properties
