@@ -1,0 +1,36 @@
+# Arquivos e diretórios a serem ignorados durante o build do Docker
+
+# Diretório target do Maven (será recriado durante o build)
+target/
+
+# Diretórios de IDEs
+.vscode/
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Arquivos de configuração local
+*.log
+logs/
+
+# Arquivos do Git
+.git/
+.gitignore
+
+# Arquivos do Docker
+Dockerfile
+.dockerignore
+docker/
+
+# Arquivos temporários e cache
+*.tmp
+*.temp
+.cache/
+
+# Arquivos de sistema operacional
+.DS_Store
+Thumbs.db
+
+# Arquivos de configuração específicos do ambiente local
+application-local.properties

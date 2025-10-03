@@ -13,6 +13,39 @@ services:
       POSTGRES_PASSWORD: ${PG_PASS}
     volumes:
       - postgres_data:/var/lib/postgresql/data
+    networks:
+      - task_planner_network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${PG_USER} -d ${PG_DATABASE}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  task-planner-app:
+    build:
+      context: ..
+      dockerfile: Dockerfile
+    container_name: task_planner_app
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      PG_DATABASE: ${PG_DATABASE}
+      PG_USER: ${PG_USER}
+      PG_PASS: ${PG_PASS}
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - task_planner_network
+    volumes:
+      - app_logs:/app/logs
 
 volumes:
   postgres_data:
+  app_logs:
+
+networks:
+  task_planner_network:
+    driver: bridge
