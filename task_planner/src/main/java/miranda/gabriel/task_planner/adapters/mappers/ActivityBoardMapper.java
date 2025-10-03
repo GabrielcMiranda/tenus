@@ -8,16 +8,14 @@ import org.mapstruct.Mapping;
 import miranda.gabriel.task_planner.adapters.outbounds.entities.JpaActivityBoardEntity;
 import miranda.gabriel.task_planner.core.model.activity_board.ActivityBoard;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = {ImageMapper.class})
 public interface ActivityBoardMapper {
 
     @Mapping(target = "owner", ignore = true)
-    @Mapping(target = "image", ignore = true)
     @Mapping(target = "tasks", ignore = true)
     ActivityBoard toDomain(JpaActivityBoardEntity entity);
 
     @Mapping(target = "owner", ignore = true)
-    @Mapping(target = "image", ignore = true)
     @Mapping(target = "tasks", ignore = true)
     JpaActivityBoardEntity toEntity(ActivityBoard domain);
 

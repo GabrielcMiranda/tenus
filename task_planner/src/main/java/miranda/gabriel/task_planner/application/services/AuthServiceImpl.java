@@ -10,7 +10,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import miranda.gabriel.task_planner.adapters.mappers.UserMapper;
+import miranda.gabriel.task_planner.adapters.mappers.MapperService;
 import miranda.gabriel.task_planner.adapters.outbounds.repositories.implementations.UserRepositoryImpl;
 import miranda.gabriel.task_planner.application.usecases.AuthUseCases;
 import miranda.gabriel.task_planner.core.enums.UserRole;
@@ -26,7 +26,7 @@ public class AuthServiceImpl implements AuthUseCases{
 
     private final UserRepositoryImpl userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
-    private final UserMapper userMapper;
+    private final MapperService mapperService;
 
     @Transactional
     public User register(SignUpRequestDTO dto){
@@ -48,6 +48,7 @@ public class AuthServiceImpl implements AuthUseCases{
         
     }
 
+
     private void validateUserRegistration(String user, String email, String phone){
         var exists = userRepository.existsByUsername(user) || userRepository.existsByEmail(email)
         || userRepository.existsByPhone(phone);
@@ -64,7 +65,7 @@ public class AuthServiceImpl implements AuthUseCases{
         if(user.isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "user not found");
         }
-        else if (userMapper.toEntity(user.get()).isLoginCorrect(dto.password(), bCryptPasswordEncoder)){
+        else if (mapperService.userToEntity(user.get()).isLoginCorrect(dto.password(), bCryptPasswordEncoder)){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid user or password");
         }
 
