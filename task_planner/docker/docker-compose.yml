@@ -14,7 +14,7 @@ services:
     volumes:
       - postgres_data:/var/lib/postgresql/data
     networks:
-      - task_planner_network
+      - tenus_network
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${PG_USER} -d ${PG_DATABASE}"]
       interval: 10s
@@ -22,11 +22,11 @@ services:
       retries: 5
       start_period: 30s
 
-  task-planner-app:
+  tenus-backend:
     build:
-      context: ..
+      context: ../backend
       dockerfile: Dockerfile
-    container_name: task_planner_app
+    container_name: tenus_backend
     restart: always
     ports:
       - "8080:8080"
@@ -39,7 +39,7 @@ services:
       postgres:
         condition: service_healthy
     networks:
-      - task_planner_network
+      - tenus_network
     volumes:
       - app_logs:/app/logs
 
@@ -48,5 +48,5 @@ volumes:
   app_logs:
 
 networks:
-  task_planner_network:
+  tenus_network:
     driver: bridge
