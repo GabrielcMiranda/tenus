@@ -108,8 +108,10 @@ function Start-Development {
             mvn clean compile
             if ($LASTEXITCODE -ne 0) {
                 Set-Location ".."
+                Set-Location ".."
                 throw "Falha na compilação"
             }
+            Set-Location ".."
             Set-Location ".."
             Write-Success "✅ Compilação concluída"
         }
@@ -122,6 +124,7 @@ function Start-Development {
         
         Set-Location ".\tenus\backend"
         mvn spring-boot:run
+        Set-Location ".."
         Set-Location ".."
         
     } catch {
@@ -147,6 +150,7 @@ function Start-Production {
         Write-Info "🔨 Construindo aplicação..."
         Set-Location ".\tenus\backend"
         mvn clean package -DskipTests
+        Set-Location ".."
         Set-Location ".."
         
         Write-Info "🐳 Subindo todos os serviços..."
