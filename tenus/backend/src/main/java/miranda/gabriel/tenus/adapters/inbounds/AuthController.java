@@ -3,6 +3,7 @@ package miranda.gabriel.tenus.adapters.inbounds;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import miranda.gabriel.tenus.application.jwt.TokenRequestDTO;
 import miranda.gabriel.tenus.application.jwt.TokenResponseDTO;
 import miranda.gabriel.tenus.application.usecases.AuthUseCases;
 import miranda.gabriel.tenus.core.model.user.SignUpRequestDTO;
@@ -36,8 +37,8 @@ public class AuthController {
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<TokenResponseDTO> refresh(@RequestBody String refreshToken) {
-        var tokens = authService.refresh(refreshToken);
+    public ResponseEntity<TokenResponseDTO> refresh(@RequestBody TokenRequestDTO dto) {
+        var tokens = authService.refresh(dto.tokenValue());
         return ResponseEntity.ok(tokens);
     }
     
