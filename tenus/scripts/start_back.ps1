@@ -39,7 +39,7 @@ function Wait-ForHealthyService {
     $elapsed = 0
     
     while ($elapsed -lt $TimeoutSeconds) {
-        $health = docker compose -f ".\docker\docker-compose.yml" --env-file ".\docker\.env" ps --format json | ConvertFrom-Json | Where-Object { $_.Service -eq $ServiceName } | Select-Object -ExpandProperty Health
+        $health = docker compose -f ".\tenus\docker\docker-compose.yml" --env-file ".\tenus\docker\.env" ps --format json | ConvertFrom-Json | Where-Object { $_.Service -eq $ServiceName } | Select-Object -ExpandProperty Health
         
         if ($health -eq "healthy") {
             Write-Success "✅ $ServiceName está saudável!"
@@ -58,7 +58,7 @@ function Wait-ForHealthyService {
 # Função de limpeza
 function Invoke-Cleanup {
     Write-Info "🧹 Limpando recursos..."
-    docker compose -f ".\docker\docker-compose.yml" --env-file ".\docker\.env" down -v
+    docker compose -f ".\tenus\docker\docker-compose.yml" --env-file ".\tenus\docker\.env" down -v
     Write-Success "✅ Limpeza concluída"
 }
 
@@ -79,8 +79,8 @@ function Start-Development {
     }
     
     # Verificar se arquivo .env existe na pasta docker
-    if (-not (Test-Path ".\docker\.env")) {
-        Write-Error "❌ Arquivo .env não encontrado em .\docker\.env"
+    if (-not (Test-Path ".\tenus\docker\.env")) {
+        Write-Error "❌ Arquivo .env não encontrado em .\tenus\docker\.env"
         Write-Info "💡 Crie o arquivo com as seguintes variáveis:"
         Write-Info "   PG_USER=postgres"
         Write-Info "   PG_PASS=sua_senha"
@@ -88,13 +88,13 @@ function Start-Development {
         Write-Info "   SPRING_PROFILES_ACTIVE=docker"
         exit 1
     } else {
-        Write-Success "✅ Arquivo .env encontrado em .\docker\.env"
+        Write-Success "✅ Arquivo .env encontrado em .\tenus\docker\.env"
     }
     
     try {
         # Subir apenas PostgreSQL
         Write-Info "🐘 Subindo PostgreSQL..."
-        docker compose -f ".\docker\docker-compose.yml" --env-file ".\docker\.env" up postgres -d
+        docker compose -f ".\tenus\docker\docker-compose.yml" --env-file ".\tenus\docker\.env" up postgres -d
         
         # Aguardar PostgreSQL ficar saudável
         if (-not (Wait-ForHealthyService "postgres" 60)) {
@@ -104,7 +104,7 @@ function Start-Development {
         # Compilar projeto (se não especificado para pular)
         if (-not $SkipBuild) {
             Write-Info "🔨 Compilando projeto..."
-            Set-Location ".\backend"
+            Set-Location ".\tenus\backend"
             mvn clean compile
             if ($LASTEXITCODE -ne 0) {
                 Set-Location ".."
@@ -120,7 +120,7 @@ function Start-Development {
         Write-Info "📍 Para parar, pressione Ctrl+C"
         Write-Info ""
         
-        Set-Location ".\backend"
+        Set-Location ".\tenus\backend"
         mvn spring-boot:run
         Set-Location ".."
         
@@ -145,17 +145,17 @@ function Start-Production {
     
     try {
         Write-Info "🔨 Construindo aplicação..."
-        Set-Location ".\backend"
+        Set-Location ".\tenus\backend"
         mvn clean package -DskipTests
         Set-Location ".."
         
         Write-Info "🐳 Subindo todos os serviços..."
-        docker compose -f ".\docker\docker-compose.yml" --env-file ".\docker\.env" up --build -d
+        docker compose -f ".\tenus\docker\docker-compose.yml" --env-file ".\tenus\docker\.env" up --build -d
         
         Write-Success "✅ Aplicação rodando em modo produção"
         Write-Info "📍 Aplicação: http://localhost:8080"
-        Write-Info "📍 Para ver logs: docker compose -f .\docker\docker-compose.yml --env-file .\docker\.env logs -f"
-        Write-Info "📍 Para parar: .\scripts\start_back.ps1 -Action stop"
+        Write-Info "📍 Para ver logs: docker compose -f .\tenus\docker\docker-compose.yml --env-file .\tenus\docker\.env logs -f"
+        Write-Info "📍 Para parar: .\tenus\scripts\start_back.ps1 -Action stop"
         
     } catch {
         Write-Error "❌ Erro: $_"
@@ -166,13 +166,13 @@ function Start-Production {
 
 function Stop-Services {
     Write-Info "🛑 Parando todos os serviços..."
-    docker compose -f ".\docker\docker-compose.yml" --env-file ".\docker\.env" down
+    docker compose -f ".\tenus\docker\docker-compose.yml" --env-file ".\tenus\docker\.env" down
     Write-Success "✅ Serviços parados"
 }
 
 function Clean-All {
     Write-Info "🧹 Limpeza completa (volumes, images, etc.)..."
-    docker compose -f ".\docker\docker-compose.yml" --env-file ".\docker\.env" down -v --rmi all
+    docker compose -f ".\tenus\docker\docker-compose.yml" --env-file ".\tenus\docker\.env" down -v --rmi all
     docker system prune -f
     Write-Success "✅ Limpeza completa concluída"
 }

@@ -34,6 +34,13 @@ public class AuthController {
         var tokens = authService.login(dto);
         return ResponseEntity.ok(tokens);
     }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<TokenResponseDTO> refresh(@RequestBody String refreshToken) {
+        var tokens = authService.refresh(refreshToken);
+        return ResponseEntity.ok(tokens);
+    }
+    
     
 
 }

@@ -11,4 +11,6 @@ public interface AuthUseCases {
 
     public TokenResponseDTO login(UserRequestDTO dto);
 
+    public TokenResponseDTO refresh(String refreshToken);
+
 }

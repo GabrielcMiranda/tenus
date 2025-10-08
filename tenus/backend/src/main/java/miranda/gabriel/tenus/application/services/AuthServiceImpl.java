@@ -1,6 +1,7 @@
 package miranda.gabriel.tenus.application.services;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -50,7 +51,6 @@ public class AuthServiceImpl implements AuthUseCases{
         
     }
 
-    @Transactional
     public TokenResponseDTO login(UserRequestDTO dto){
         var user = validateLogin(dto);
 
@@ -58,6 +58,18 @@ public class AuthServiceImpl implements AuthUseCases{
         var refreshToken = tokenService.generateRefreshToken(user);
 
         return new TokenResponseDTO(accessToken, TokenServicePort.ACCESS_EXPIRATION, refreshToken, TokenServicePort.REFRESH_EXPIRATION);
+    }
+
+    public TokenResponseDTO refresh(String refreshToken){
+       var decodedRefreshToken = tokenService.validateRefreshToken(refreshToken);
+
+        var userId = decodedRefreshToken.getSubject();
+        var user = validateUserId(userId);
+
+        var jwtAccessValue = tokenService.generateAccessToken(user);
+        var jwtRefreshValue = tokenService.generateRefreshToken(user);
+
+        return new TokenResponseDTO(jwtAccessValue, TokenServicePort.ACCESS_EXPIRATION, jwtRefreshValue, TokenServicePort.REFRESH_EXPIRATION);
     }
 
 
@@ -82,5 +94,12 @@ public class AuthServiceImpl implements AuthUseCases{
         }
 
         return user.get();
+    }
+
+    private User validateUserId(String userId){
+        var user = userRepository.findById(UUID.fromString(userId))
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "user not found"));
+
+        return user;
     }
 }
