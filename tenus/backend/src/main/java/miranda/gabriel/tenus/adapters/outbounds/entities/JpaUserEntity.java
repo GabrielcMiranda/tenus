@@ -1,6 +1,7 @@
 package miranda.gabriel.tenus.adapters.outbounds.entities;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -57,6 +58,9 @@ public class JpaUserEntity {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private UserRole role;
+
+    @Column(nullable = false)
+    private LocalTime messageTime;
 
     private LocalDateTime createdAt;
 

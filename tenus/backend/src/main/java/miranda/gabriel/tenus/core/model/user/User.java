@@ -1,6 +1,7 @@
 package miranda.gabriel.tenus.core.model.user;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -27,6 +28,8 @@ public class User {
     private Phone phone;
 
     private UserRole role;
+
+    private LocalTime messageTime;
 
     private LocalDateTime createdAt;
 
@@ -115,5 +118,15 @@ public class User {
     public void setScore(Integer score) {
         this.score = score;
     }
+
+    public LocalTime getMessageTime() {
+        return messageTime;
+    }
+
+    public void setMessageTime(LocalTime messageTime) {
+        this.messageTime = messageTime;
+    }
+
+    
     
 }

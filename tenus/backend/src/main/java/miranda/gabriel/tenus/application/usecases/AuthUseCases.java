@@ -13,4 +13,9 @@ public interface AuthUseCases {
 
     public TokenResponseDTO refresh(String refreshToken);
 
+    public void validateUserRegistration(SignUpRequestDTO dto);
+
+    public User validateLogin(UserRequestDTO dto);
+
+    public User validateUserId(String userId);
 }

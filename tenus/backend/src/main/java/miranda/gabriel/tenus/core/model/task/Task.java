@@ -18,7 +18,7 @@ public class Task {
             LocalDate date, LocalTime startTime, LocalTime endTime, LocalDateTime createdAt, LocalDateTime updatedAt,
             TaskStatus status,Boolean completed) {
 
-        if(startTime.isBefore(board.getMessageTime())){
+        if(startTime.isBefore(board.getOwner().getMessageTime())){
             throw new IllegalArgumentException("Board message time needs to be earlier than any task of the day");
         }
 

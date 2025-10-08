@@ -1,7 +1,6 @@
 package miranda.gabriel.tenus.adapters.outbounds.entities;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -38,9 +37,6 @@ public class JpaActivityBoardEntity {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "image_id", unique = true)
     private JpaImageEntity image;
-
-    @Column(nullable = false)
-    private LocalTime messageTime;
 
     private LocalDateTime createdAt;
 

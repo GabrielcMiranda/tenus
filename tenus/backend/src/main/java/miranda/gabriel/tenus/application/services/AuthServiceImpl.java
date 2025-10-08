@@ -34,7 +34,7 @@ public class AuthServiceImpl implements AuthUseCases{
     @Transactional
     public User register(SignUpRequestDTO dto){
 
-        validateUserRegistration(dto.username(), dto.email(), dto.phone());
+        validateUserRegistration(dto);
 
         var user = new User();
         
@@ -73,16 +73,16 @@ public class AuthServiceImpl implements AuthUseCases{
     }
 
 
-    private void validateUserRegistration(String user, String email, String phone){
-        var exists = userRepository.existsByUsername(user) || userRepository.existsByEmail(email)
-        || userRepository.existsByPhone(phone);
+    public void validateUserRegistration(SignUpRequestDTO dto){
+        var exists = userRepository.existsByUsername(dto.username()) || userRepository.existsByEmail(dto.email())
+        || userRepository.existsByPhone(dto.phone());
 
         if (exists){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "username, email, or password are already been used");
         }
     }
 
-    private User validateLogin(UserRequestDTO dto){
+    public User validateLogin(UserRequestDTO dto){
         var user = userRepository.findByUsername(dto.login())
             .or(() -> userRepository.findByEmail(dto.login()));
         
@@ -96,7 +96,7 @@ public class AuthServiceImpl implements AuthUseCases{
         return user.get();
     }
 
-    private User validateUserId(String userId){
+    public User validateUserId(String userId){
         var user = userRepository.findById(UUID.fromString(userId))
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "user not found"));
 

@@ -23,11 +23,11 @@ public class AuthController {
     private final AuthUseCases authService;
 
     @PostMapping("/register")
-    public ResponseEntity<Void> register(@RequestBody SignUpRequestDTO dto) {
+    public ResponseEntity<String> register(@RequestBody SignUpRequestDTO dto) {
         
         authService.register(dto);
-        
-        return ResponseEntity.ok().build();
+
+        return ResponseEntity.ok("User registered successfully.");
     }
 
     @PostMapping("/login")

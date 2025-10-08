@@ -17,7 +17,6 @@ public class ActivityBoard {
         this.name = name;
         this.owner = owner;
         this.image = image;
-        this.messageTime = messageTime;
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
     }
@@ -29,8 +28,6 @@ public class ActivityBoard {
     private User owner;
 
     private Image image;
-
-    private LocalTime messageTime;
 
     private LocalDateTime createdAt;
 
@@ -64,14 +61,6 @@ public class ActivityBoard {
 
     public void setImage(Image image) {
         this.image = image;
-    }
-
-    public LocalTime getMessageTime() {
-        return messageTime;
-    }
-
-    public void setMessageTime(LocalTime messageTime) {
-        this.messageTime = messageTime;
     }
 
     public LocalDateTime getCreatedAt() {
