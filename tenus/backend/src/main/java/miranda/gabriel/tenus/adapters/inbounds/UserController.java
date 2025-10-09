@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import miranda.gabriel.tenus.application.usecases.UserUseCases;
+import miranda.gabriel.tenus.core.model.user.TimeRequestDTO;
+
 import org.springframework.web.bind.annotation.PutMapping;
 
 
@@ -22,8 +24,10 @@ public class UserController {
     private final UserUseCases userService;
     
     @PutMapping("/me/message-time")
-    public ResponseEntity<String> updateMessageTime( @RequestBody LocalTime message_time, @AuthenticationPrincipal Jwt jwt) {
-        userService.updateMessageTime(message_time, jwt.getSubject());
+    public ResponseEntity<String> updateMessageTime(@RequestBody TimeRequestDTO dto, @AuthenticationPrincipal Jwt jwt) {
+        var time = LocalTime.parse(dto.messageTime());
+
+        userService.updateMessageTime(time, jwt.getSubject());
         return ResponseEntity.ok("Message time updated successfully.");
     }
 }

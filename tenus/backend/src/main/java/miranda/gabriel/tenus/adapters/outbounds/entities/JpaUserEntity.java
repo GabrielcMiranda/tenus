@@ -59,7 +59,6 @@ public class JpaUserEntity {
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    @Column(nullable = false)
     private LocalTime messageTime;
 
     private LocalDateTime createdAt;

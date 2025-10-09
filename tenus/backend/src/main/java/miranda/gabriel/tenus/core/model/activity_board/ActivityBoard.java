@@ -1,7 +1,6 @@
 package miranda.gabriel.tenus.core.model.activity_board;
 
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,7 +10,7 @@ import miranda.gabriel.tenus.core.model.user.User;
 
 public class ActivityBoard {
 
-    public ActivityBoard(Long id, String name, User owner, Image image, LocalTime messageTime, LocalDateTime createdAt,
+    public ActivityBoard(Long id, String name, User owner, Image image, LocalDateTime createdAt,
             LocalDateTime updatedAt) {
         this.id = id;
         this.name = name;
