@@ -10,15 +10,15 @@ import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import miranda.gabriel.tenus.adapters.inbounds.dto.LoginRequestDTO;
+import miranda.gabriel.tenus.adapters.inbounds.dto.SignUpRequestDTO;
 import miranda.gabriel.tenus.adapters.mappers.MapperService;
 import miranda.gabriel.tenus.application.jwt.TokenResponseDTO;
 import miranda.gabriel.tenus.application.jwt.TokenServicePort;
 import miranda.gabriel.tenus.application.usecases.AuthUseCases;
 import miranda.gabriel.tenus.core.enums.UserRole;
-import miranda.gabriel.tenus.core.model.user.SignUpRequestDTO;
 import miranda.gabriel.tenus.core.model.user.User;
 import miranda.gabriel.tenus.core.model.user.UserRepository;
-import miranda.gabriel.tenus.core.model.user.UserRequestDTO;
 import miranda.gabriel.tenus.core.vo.Email;
 import miranda.gabriel.tenus.core.vo.Phone;
 
@@ -51,7 +51,7 @@ public class AuthServiceImpl implements AuthUseCases{
         
     }
 
-    public TokenResponseDTO login(UserRequestDTO dto){
+    public TokenResponseDTO login(LoginRequestDTO dto){
         var user = validateLogin(dto);
 
         var accessToken = tokenService.generateAccessToken(user);
@@ -82,7 +82,7 @@ public class AuthServiceImpl implements AuthUseCases{
         }
     }
 
-    public User validateLogin(UserRequestDTO dto){
+    public User validateLogin(LoginRequestDTO dto){
         var user = userRepository.findByUsername(dto.login())
             .or(() -> userRepository.findByEmail(dto.login()));
         

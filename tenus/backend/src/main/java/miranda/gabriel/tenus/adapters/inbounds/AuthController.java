@@ -3,11 +3,11 @@ package miranda.gabriel.tenus.adapters.inbounds;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import miranda.gabriel.tenus.application.jwt.TokenRequestDTO;
+import miranda.gabriel.tenus.adapters.inbounds.dto.LoginRequestDTO;
+import miranda.gabriel.tenus.adapters.inbounds.dto.RefreshTokenRequestDTO;
+import miranda.gabriel.tenus.adapters.inbounds.dto.SignUpRequestDTO;
 import miranda.gabriel.tenus.application.jwt.TokenResponseDTO;
 import miranda.gabriel.tenus.application.usecases.AuthUseCases;
-import miranda.gabriel.tenus.core.model.user.SignUpRequestDTO;
-import miranda.gabriel.tenus.core.model.user.UserRequestDTO;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,14 +31,14 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenResponseDTO> login (@RequestBody UserRequestDTO dto) {
+    public ResponseEntity<TokenResponseDTO> login (@RequestBody LoginRequestDTO dto) {
         var tokens = authService.login(dto);
         return ResponseEntity.ok(tokens);
     }
 
     @PostMapping("/refresh")
-    public ResponseEntity<TokenResponseDTO> refresh(@RequestBody TokenRequestDTO dto) {
-        var tokens = authService.refresh(dto.tokenValue());
+    public ResponseEntity<TokenResponseDTO> refresh(@RequestBody RefreshTokenRequestDTO dto) {
+        var tokens = authService.refresh(dto.refreshToken());
         return ResponseEntity.ok(tokens);
     }
     

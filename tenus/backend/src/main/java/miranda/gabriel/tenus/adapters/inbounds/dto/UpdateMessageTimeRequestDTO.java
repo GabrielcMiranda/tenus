@@ -1,0 +1,5 @@
+package miranda.gabriel.tenus.adapters.inbounds.dto;
+
+public record UpdateMessageTimeRequestDTO(String messageTime) {
+
+}
