@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import miranda.gabriel.tenus.adapters.inbounds.dto.LoginRequestDTO;
 import miranda.gabriel.tenus.adapters.inbounds.dto.RefreshTokenRequestDTO;
 import miranda.gabriel.tenus.adapters.inbounds.dto.SignUpRequestDTO;
-import miranda.gabriel.tenus.application.jwt.TokenResponseDTO;
+import miranda.gabriel.tenus.adapters.inbounds.dto.TokenResponseDTO;
 import miranda.gabriel.tenus.application.usecases.AuthUseCases;
 
 import org.springframework.http.ResponseEntity;
