@@ -11,9 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
 import miranda.gabriel.tenus.adapters.inbounds.dto.UpdateMessageTimeRequestDTO;
+import miranda.gabriel.tenus.adapters.inbounds.dto.UserProfileDTO;
 import miranda.gabriel.tenus.application.usecases.UserUseCases;
 
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 
 @RestController
@@ -30,4 +33,11 @@ public class UserController {
         userService.updateMessageTime(time, jwt.getSubject());
         return ResponseEntity.ok("Message time updated successfully.");
     }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserProfileDTO> profile(@AuthenticationPrincipal Jwt jwt) {
+        var userProfile = userService.getUserProfile(jwt.getSubject());
+        return ResponseEntity.ok(userProfile);
+    }
+    
 }

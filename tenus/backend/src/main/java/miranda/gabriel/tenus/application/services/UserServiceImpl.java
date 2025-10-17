@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import lombok.RequiredArgsConstructor;
+import miranda.gabriel.tenus.adapters.inbounds.dto.UserProfileDTO;
 import miranda.gabriel.tenus.application.usecases.AuthUseCases;
 import miranda.gabriel.tenus.application.usecases.UserUseCases;
 import miranda.gabriel.tenus.core.model.user.UserRepository;
@@ -31,5 +32,16 @@ public class UserServiceImpl implements UserUseCases{
         user.setMessageTime(message_time);
         userRepository.save(user);
 
+    }
+
+    public UserProfileDTO getUserProfile(String userId) {
+        var user = authService.validateUserId(userId);
+        return new UserProfileDTO(
+            user.getUsername(),
+            user.getEmail().getValue(), 
+            user.getPhone().getValue(), 
+            user.getCreatedAt() , 
+            user.getMessageTime(), 
+            user.getScore());
     }
 }
