@@ -39,6 +39,7 @@ public class Task {
         this.updatedAt = updatedAt;
         this.status = status;
         this.completed = completed;
+        this.taskLogs = new ArrayList<>();
     }
 
     private Long id;
@@ -67,7 +68,7 @@ public class Task {
 
     private Boolean completed;
 
-    private List<TaskLog> taskLogs = new ArrayList<>();
+    private List<TaskLog> taskLogs;
 
     public Long getId() {
         return id;

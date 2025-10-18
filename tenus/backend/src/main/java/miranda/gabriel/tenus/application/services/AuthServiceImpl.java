@@ -10,9 +10,9 @@ import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import miranda.gabriel.tenus.adapters.inbounds.dto.LoginRequestDTO;
-import miranda.gabriel.tenus.adapters.inbounds.dto.SignUpRequestDTO;
-import miranda.gabriel.tenus.adapters.inbounds.dto.TokenResponseDTO;
+import miranda.gabriel.tenus.adapters.inbounds.dto.auth.LoginRequestDTO;
+import miranda.gabriel.tenus.adapters.inbounds.dto.auth.SignUpRequestDTO;
+import miranda.gabriel.tenus.adapters.inbounds.dto.auth.TokenResponseDTO;
 import miranda.gabriel.tenus.adapters.mappers.MapperService;
 import miranda.gabriel.tenus.application.jwt.TokenServicePort;
 import miranda.gabriel.tenus.application.usecases.AuthUseCases;

@@ -10,14 +10,8 @@ import miranda.gabriel.tenus.core.model.user.User;
 
 public class ActivityBoard {
 
-    public ActivityBoard(Long id, String name, User owner, Image image, LocalDateTime createdAt,
-            LocalDateTime updatedAt) {
-        this.id = id;
-        this.name = name;
-        this.owner = owner;
-        this.image = image;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+    public ActivityBoard() {
+        this.tasks = new ArrayList<>();
     }
 
     private Long id;
@@ -32,7 +26,7 @@ public class ActivityBoard {
 
     private LocalDateTime updatedAt;
 
-    private List<Task> tasks = new ArrayList<>();
+    private List<Task> tasks;
 
     public Long getId() {
         return id;

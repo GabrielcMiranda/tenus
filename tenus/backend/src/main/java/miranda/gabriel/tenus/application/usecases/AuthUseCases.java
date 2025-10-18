@@ -1,8 +1,8 @@
 package miranda.gabriel.tenus.application.usecases;
 
-import miranda.gabriel.tenus.adapters.inbounds.dto.LoginRequestDTO;
-import miranda.gabriel.tenus.adapters.inbounds.dto.SignUpRequestDTO;
-import miranda.gabriel.tenus.adapters.inbounds.dto.TokenResponseDTO;
+import miranda.gabriel.tenus.adapters.inbounds.dto.auth.LoginRequestDTO;
+import miranda.gabriel.tenus.adapters.inbounds.dto.auth.SignUpRequestDTO;
+import miranda.gabriel.tenus.adapters.inbounds.dto.auth.TokenResponseDTO;
 import miranda.gabriel.tenus.core.model.user.User;
 
 public interface AuthUseCases {

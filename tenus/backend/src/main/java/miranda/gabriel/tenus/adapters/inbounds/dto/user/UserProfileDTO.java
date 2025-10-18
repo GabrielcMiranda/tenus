@@ -1,4 +1,4 @@
-package miranda.gabriel.tenus.adapters.inbounds.dto;
+package miranda.gabriel.tenus.adapters.inbounds.dto.user;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;

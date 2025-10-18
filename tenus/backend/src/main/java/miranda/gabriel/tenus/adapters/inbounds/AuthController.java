@@ -3,10 +3,10 @@ package miranda.gabriel.tenus.adapters.inbounds;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import miranda.gabriel.tenus.adapters.inbounds.dto.LoginRequestDTO;
-import miranda.gabriel.tenus.adapters.inbounds.dto.RefreshTokenRequestDTO;
-import miranda.gabriel.tenus.adapters.inbounds.dto.SignUpRequestDTO;
-import miranda.gabriel.tenus.adapters.inbounds.dto.TokenResponseDTO;
+import miranda.gabriel.tenus.adapters.inbounds.dto.auth.LoginRequestDTO;
+import miranda.gabriel.tenus.adapters.inbounds.dto.auth.RefreshTokenRequestDTO;
+import miranda.gabriel.tenus.adapters.inbounds.dto.auth.SignUpRequestDTO;
+import miranda.gabriel.tenus.adapters.inbounds.dto.auth.TokenResponseDTO;
 import miranda.gabriel.tenus.application.usecases.AuthUseCases;
 
 import org.springframework.http.ResponseEntity;

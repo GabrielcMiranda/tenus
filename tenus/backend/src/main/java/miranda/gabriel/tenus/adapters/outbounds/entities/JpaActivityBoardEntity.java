@@ -1,6 +1,7 @@
 package miranda.gabriel.tenus.adapters.outbounds.entities;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
@@ -47,5 +48,5 @@ public class JpaActivityBoardEntity {
         cascade = CascadeType.ALL,
         orphanRemoval = true
     )
-    private List<JpaTaskEntity> tasks;
+    private List<JpaTaskEntity> tasks = new ArrayList<>();
 }

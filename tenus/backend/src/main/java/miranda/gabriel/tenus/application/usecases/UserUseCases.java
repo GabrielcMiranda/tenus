@@ -2,7 +2,7 @@ package miranda.gabriel.tenus.application.usecases;
 
 import java.time.LocalTime;
 
-import miranda.gabriel.tenus.adapters.inbounds.dto.UserProfileDTO;
+import miranda.gabriel.tenus.adapters.inbounds.dto.user.UserProfileDTO;
 
 public interface UserUseCases {
 

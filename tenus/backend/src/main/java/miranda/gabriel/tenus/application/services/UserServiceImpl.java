@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import lombok.RequiredArgsConstructor;
-import miranda.gabriel.tenus.adapters.inbounds.dto.UserProfileDTO;
+import miranda.gabriel.tenus.adapters.inbounds.dto.user.UserProfileDTO;
 import miranda.gabriel.tenus.application.usecases.AuthUseCases;
 import miranda.gabriel.tenus.application.usecases.UserUseCases;
 import miranda.gabriel.tenus.core.model.user.UserRepository;

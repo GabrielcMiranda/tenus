@@ -3,6 +3,7 @@ package miranda.gabriel.tenus.adapters.outbounds.entities;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -68,5 +69,5 @@ public class JpaTaskEntity {
     @OneToMany(
         mappedBy = "task"
     )
-    private List<JpaTaskLogEntity> taskLogs;
+    private List<JpaTaskLogEntity> taskLogs = new ArrayList<>();
 }

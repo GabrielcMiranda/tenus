@@ -14,7 +14,7 @@ import miranda.gabriel.tenus.core.vo.Phone;
 public class User {
 
     public User(){
-        
+        this.boards = new ArrayList<>();
     }
 
     private UUID id;
@@ -37,7 +37,7 @@ public class User {
 
     private Integer score;
 
-    private List<ActivityBoard> boards = new ArrayList<>();
+    private List<ActivityBoard> boards;
 
     public UUID getId() {
         return id;

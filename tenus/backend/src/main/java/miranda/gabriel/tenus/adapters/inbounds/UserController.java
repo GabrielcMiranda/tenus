@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import miranda.gabriel.tenus.adapters.inbounds.dto.UpdateMessageTimeRequestDTO;
-import miranda.gabriel.tenus.adapters.inbounds.dto.UserProfileDTO;
+import miranda.gabriel.tenus.adapters.inbounds.dto.user.UpdateMessageTimeRequestDTO;
+import miranda.gabriel.tenus.adapters.inbounds.dto.user.UserProfileDTO;
 import miranda.gabriel.tenus.application.usecases.UserUseCases;
 
 import org.springframework.web.bind.annotation.PutMapping;
