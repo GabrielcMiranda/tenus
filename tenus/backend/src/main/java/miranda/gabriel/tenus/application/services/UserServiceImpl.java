@@ -11,6 +11,7 @@ import miranda.gabriel.tenus.adapters.inbounds.dto.user.UserProfileDTO;
 import miranda.gabriel.tenus.application.usecases.AuthUseCases;
 import miranda.gabriel.tenus.application.usecases.UserUseCases;
 import miranda.gabriel.tenus.core.model.user.UserRepository;
+import miranda.gabriel.tenus.infrastructure.exception.TenusExceptions;
 
 @Service
 @RequiredArgsConstructor
@@ -26,7 +27,7 @@ public class UserServiceImpl implements UserUseCases{
             .noneMatch(task -> task.getStartTime().isBefore(message_time));
         
         if (!validMessageTime) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Message time cannot be earlier than task start times.");
+            throw new TenusExceptions.BusinessRuleViolationException("Message time cannot be earlier than task start times.");
         }
 
         user.setMessageTime(message_time);

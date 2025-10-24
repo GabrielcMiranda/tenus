@@ -44,4 +44,14 @@ public class TenusExceptions {
             super(HttpStatus.UNAUTHORIZED, message);
         }
     }
+    
+    public static class InvalidCredentialsException extends ResponseStatusException {
+        public InvalidCredentialsException(String message) {
+            super(HttpStatus.UNAUTHORIZED, message);
+        }
+        
+        public InvalidCredentialsException() {
+            super(HttpStatus.UNAUTHORIZED, "Invalid username or password");
+        }
+    }
 }

@@ -3,10 +3,8 @@ package miranda.gabriel.tenus.application.services;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -21,6 +19,7 @@ import miranda.gabriel.tenus.core.model.user.User;
 import miranda.gabriel.tenus.core.model.user.UserRepository;
 import miranda.gabriel.tenus.core.vo.Email;
 import miranda.gabriel.tenus.core.vo.Phone;
+import miranda.gabriel.tenus.infrastructure.exception.TenusExceptions;
 
 @Service
 @RequiredArgsConstructor
@@ -78,7 +77,7 @@ public class AuthServiceImpl implements AuthUseCases{
         || userRepository.existsByPhone(dto.phone());
 
         if (exists){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "username, email, or password are already been used");
+            throw new TenusExceptions.UserAlreadyExistsException("username, email, or password are already been used");
         }
     }
 
@@ -87,10 +86,10 @@ public class AuthServiceImpl implements AuthUseCases{
             .or(() -> userRepository.findByEmail(dto.login()));
         
         if(user.isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "user not found");
+            throw new TenusExceptions.UserNotFoundException("user not found");
         }
         else if (!mapperService.userToEntity(user.get()).isLoginCorrect(dto.password(), bCryptPasswordEncoder)){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid user or password");
+            throw new TenusExceptions.InvalidCredentialsException();
         }
 
         return user.get();
@@ -98,7 +97,7 @@ public class AuthServiceImpl implements AuthUseCases{
 
     public User validateUserId(String userId){
         var user = userRepository.findById(UUID.fromString(userId))
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "user not found"));
+            .orElseThrow(() -> new TenusExceptions.UserNotFoundException("user not found"));
 
         return user;
     }

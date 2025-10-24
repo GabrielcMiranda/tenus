@@ -14,6 +14,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import lombok.RequiredArgsConstructor;
 import miranda.gabriel.tenus.core.model.user.User;
+import miranda.gabriel.tenus.infrastructure.exception.TenusExceptions;
 
 @Component
 @RequiredArgsConstructor
@@ -62,12 +63,12 @@ public class TokenServiceAdapter implements TokenServicePort{
         try{
             decodedRefreshToken = jwtDecoder.decode(refreshToken);
         } catch(JwtException e){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid refresh token");
+            throw new TenusExceptions.InvalidTokenException("invalid refresh token");
         }
 
         var type = decodedRefreshToken.getClaimAsString("type");
         if(!"refresh".equals(type)){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "invalid token type");
+            throw new TenusExceptions.InvalidTokenException("invalid token type");
         }
 
         return decodedRefreshToken;
