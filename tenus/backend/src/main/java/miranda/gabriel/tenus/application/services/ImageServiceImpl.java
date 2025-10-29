@@ -1,0 +1,100 @@
+package miranda.gabriel.tenus.application.services;
+
+import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import miranda.gabriel.tenus.adapters.outbounds.cloudstorage.CloudStoragePort;
+import miranda.gabriel.tenus.application.usecases.ImageUsecases;
+import miranda.gabriel.tenus.core.model.image.Image;
+import miranda.gabriel.tenus.infrastructure.exception.TenusExceptions;
+
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class ImageServiceImpl implements ImageUsecases{
+    
+    private final CloudStoragePort cloudStoragePort;
+    
+    public Image uploadImage(MultipartFile file) {
+
+        if (file == null || file.isEmpty()) {
+            return null;
+        }
+        
+        validateImage(file);
+        
+        try {
+            String imageUrl = cloudStoragePort.uploadFile(
+                file.getOriginalFilename(),
+                file.getInputStream(),
+                file.getContentType(),
+                file.getSize()
+            );
+            
+            log.info("Image uploaded successfully: {}", imageUrl);
+            
+            var image = new Image();
+            image.setImageUri(imageUrl);
+            image.setCreatedAt(LocalDateTime.now());
+            image.setUpdatedAt(LocalDateTime.now());
+            return image;
+            
+        } catch (IOException e) {
+            log.error("Error reading image file: {}", e.getMessage(), e);
+            throw new TenusExceptions.BusinessRuleViolationException("Error processing image file");
+        }
+    }
+    
+    public boolean deleteImage(String imageUrl) {
+        if (imageUrl == null || imageUrl.trim().isEmpty()) {
+            return true;
+        }
+        
+        return cloudStoragePort.deleteFile(imageUrl);
+    }
+    
+    private void validateImage(MultipartFile file) {
+      
+        if (file.getSize() > MAX_FILE_SIZE) {
+            throw new TenusExceptions.BusinessRuleViolationException(
+                String.format("Image size must be less than %d MB", MAX_FILE_SIZE / (1024 * 1024))
+            );
+        }
+        
+        String contentType = file.getContentType();
+        if (contentType == null || !ALLOWED_CONTENT_TYPES.contains(contentType.toLowerCase())) {
+            throw new TenusExceptions.BusinessRuleViolationException(
+                "Invalid image format. Allowed formats: " + String.join(", ", ALLOWED_CONTENT_TYPES)
+            );
+        }
+        
+        String fileName = file.getOriginalFilename();
+        if (fileName == null || fileName.trim().isEmpty()) {
+            throw new TenusExceptions.BusinessRuleViolationException("Image file name cannot be empty");
+        }
+        
+        String fileExtension = getFileExtension(fileName);
+        List<String> allowedExtensions = Arrays.asList("jpg", "jpeg", "png", "gif", "webp");
+        if (!allowedExtensions.contains(fileExtension.toLowerCase())) {
+            throw new TenusExceptions.BusinessRuleViolationException(
+                "Invalid image extension. Allowed extensions: " + String.join(", ", allowedExtensions)
+            );
+        }
+        
+        log.info("Image validation passed: {} ({})", fileName, contentType);
+    }
+    
+    private String getFileExtension(String fileName) {
+        if (fileName == null || !fileName.contains(".")) {
+            return "";
+        }
+        return fileName.substring(fileName.lastIndexOf(".") + 1);
+    }
+}

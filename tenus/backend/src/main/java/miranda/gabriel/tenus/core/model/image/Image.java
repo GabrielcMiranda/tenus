@@ -4,11 +4,8 @@ import java.time.LocalDateTime;
 
 public class Image {
 
-    public Image(Long id, String imageUri, LocalDateTime createdAt, LocalDateTime updatedAt) {
-        this.id = id;
-        this.imageUri = imageUri;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
+    public Image() {
+        
     }
 
     private Long id;

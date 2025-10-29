@@ -2,10 +2,7 @@ package miranda.gabriel.tenus.application.services;
 
 import java.time.LocalTime;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
-
 import lombok.RequiredArgsConstructor;
 import miranda.gabriel.tenus.adapters.inbounds.dto.user.UserProfileDTO;
 import miranda.gabriel.tenus.application.usecases.AuthUseCases;

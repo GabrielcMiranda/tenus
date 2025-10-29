@@ -1,8 +1,7 @@
-package miranda.gabriel.tenus.application.jwt;
+package miranda.gabriel.tenus.adapters.outbounds.jwt;
 
 import java.time.Instant;
 
-import org.springframework.http.HttpStatus;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtDecoder;
@@ -10,7 +9,6 @@ import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
 import org.springframework.security.oauth2.jwt.JwtException;
 import org.springframework.stereotype.Component;
-import org.springframework.web.server.ResponseStatusException;
 
 import lombok.RequiredArgsConstructor;
 import miranda.gabriel.tenus.core.model.user.User;
@@ -24,6 +22,7 @@ public class TokenServiceAdapter implements TokenServicePort{
 
     private final JwtEncoder jwtEncoder;
 
+    @Override
     public String generateAccessToken(User user){
 
         var now = Instant.now();
@@ -41,6 +40,7 @@ public class TokenServiceAdapter implements TokenServicePort{
         return jwtEncoder.encode(JwtEncoderParameters.from(accessClaims)).getTokenValue();
     }
 
+    @Override
     public String generateRefreshToken(User user){
 
         var now = Instant.now();
@@ -56,6 +56,7 @@ public class TokenServiceAdapter implements TokenServicePort{
         return jwtEncoder.encode(JwtEncoderParameters.from(refreshClaims)).getTokenValue();
     }
 
+    @Override
     public Jwt validateRefreshToken(String refreshToken){
 
         Jwt decodedRefreshToken;

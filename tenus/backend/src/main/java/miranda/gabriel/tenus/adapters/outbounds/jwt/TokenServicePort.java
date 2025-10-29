@@ -1,4 +1,4 @@
-package miranda.gabriel.tenus.application.jwt;
+package miranda.gabriel.tenus.adapters.outbounds.jwt;
 
 import org.springframework.security.oauth2.jwt.Jwt;
 

@@ -12,7 +12,7 @@ import miranda.gabriel.tenus.adapters.inbounds.dto.auth.LoginRequestDTO;
 import miranda.gabriel.tenus.adapters.inbounds.dto.auth.SignUpRequestDTO;
 import miranda.gabriel.tenus.adapters.inbounds.dto.auth.TokenResponseDTO;
 import miranda.gabriel.tenus.adapters.mappers.MapperService;
-import miranda.gabriel.tenus.application.jwt.TokenServicePort;
+import miranda.gabriel.tenus.adapters.outbounds.jwt.TokenServicePort;
 import miranda.gabriel.tenus.application.usecases.AuthUseCases;
 import miranda.gabriel.tenus.core.enums.UserRole;
 import miranda.gabriel.tenus.core.model.user.User;
