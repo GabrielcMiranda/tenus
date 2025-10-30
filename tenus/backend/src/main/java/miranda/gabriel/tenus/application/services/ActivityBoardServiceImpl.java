@@ -1,10 +1,15 @@
 package miranda.gabriel.tenus.application.services;
 
 import java.time.LocalDateTime;
+import java.util.List;
+
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
+import miranda.gabriel.tenus.adapters.inbounds.dto.board.BoardDetailDTO;
 import miranda.gabriel.tenus.adapters.inbounds.dto.board.BoardRequestDTO;
+import miranda.gabriel.tenus.adapters.inbounds.dto.board.BoardResponseDTO;
+import miranda.gabriel.tenus.adapters.inbounds.dto.task.TaskSummaryDTO;
 import miranda.gabriel.tenus.application.usecases.ActivityBoardUseCases;
 import miranda.gabriel.tenus.application.usecases.AuthUseCases;
 import miranda.gabriel.tenus.application.usecases.ImageUsecases;
@@ -27,6 +32,14 @@ public class ActivityBoardServiceImpl implements ActivityBoardUseCases{
 
         var user = authService.validateUserId(userId);
 
+        var existingBoards = boardRepository.findAll().stream()
+            .filter(board -> board.getOwner().getId().equals(user.getId()) && board.getName().equals(dto.getName()))
+            .findAny();
+
+        if(existingBoards.isPresent()) {
+            throw new TenusExceptions.BusinessRuleViolationException("Board with the same name already exists");
+        }
+
         if (dto.getName() == null || dto.getName().isEmpty()) {
             throw new TenusExceptions.BusinessRuleViolationException("Board name cannot be empty");
         }
@@ -44,5 +57,45 @@ public class ActivityBoardServiceImpl implements ActivityBoardUseCases{
         board.setUpdatedAt(LocalDateTime.now());
 
         boardRepository.save(board);
+    }
+
+    public List<BoardResponseDTO> listUserBoards(String userId){
+        var user = authService.validateUserId(userId);
+
+        var boards = boardRepository.findAll().stream()
+            .filter(board -> board.getOwner().getId().equals(user.getId()))
+            .map(board -> new BoardResponseDTO(
+                board.getId(),
+                board.getName(),
+                board.getImage() != null ? board.getImage().getImageUri() : null,
+                board.getTasks().size()
+            )).toList();
+
+        return boards;
+
+    }
+
+    public BoardDetailDTO getBoard(Long boardId, String userId){
+        var user = authService.validateUserId(userId);
+
+        var board = boardRepository.findById(boardId)
+            .orElseThrow(() -> new TenusExceptions.BoardNotFoundException(boardId));
+
+        if (!board.getOwner().getId().equals(user.getId())) {
+            throw new TenusExceptions.UnauthorizedOperationException("You do not have access to this board");
+        }
+
+        var tasksSummary = board.getTasks().stream()
+            .map(task -> new TaskSummaryDTO(
+                task.getName(),
+                task.getStartTime(),
+                task.getEndTime()
+            )).toList();
+
+        return new BoardDetailDTO(
+            board.getName(),
+            board.getImage() != null ? board.getImage().getImageUri() : null,
+            tasksSummary
+        );
     }
 }

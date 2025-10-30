@@ -1,5 +1,8 @@
 package miranda.gabriel.tenus.adapters.outbounds.repositories.implementations;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
@@ -20,5 +23,17 @@ public class ActivityBoardRepositoryImpl implements ActivityBoardRepository{
         var entity = mapperService.activityBoardToEntity(activityBoard);
         var savedEntity = jpaActivityBoardRepository.save(entity);
         return mapperService.activityBoardToDomain(savedEntity);
+    }
+
+    @Override
+    public List<ActivityBoard> findAll() {
+        var entities = jpaActivityBoardRepository.findAll();
+        return mapperService.activityBoardToDomainList(entities);
+    }
+
+    @Override
+    public Optional<ActivityBoard> findById(Long id) {
+        var entity = jpaActivityBoardRepository.findById(id);
+        return entity.map(mapperService::activityBoardToDomain);
     }
 }

@@ -28,7 +28,7 @@ public class AuthController {
         
         authService.register(dto);
 
-        return ResponseEntity.ok("User registered successfully.");
+        return ResponseEntity.status(201).body("User registered successfully.");
     }
 
     @PostMapping("/login")
