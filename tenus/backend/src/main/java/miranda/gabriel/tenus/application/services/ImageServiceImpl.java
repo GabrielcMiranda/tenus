@@ -62,20 +62,16 @@ public class ImageServiceImpl implements ImageUsecases{
         }
         
         try {
-            // Buscar imagem no banco de dados
             var imageOptional = imageRepository.findByImageUri(imageUri);
             
             if (imageOptional.isEmpty()) {
                 log.warn("Image not found in database: {}", imageUri);
-                // Tenta deletar do storage mesmo que não esteja no banco
                 return cloudStoragePort.deleteFile(imageUri);
             }
-            
-            // Deletar do storage primeiro
+   
             boolean deletedFromStorage = cloudStoragePort.deleteFile(imageUri);
             
             if (deletedFromStorage) {
-                // Se deletou do storage, deleta do banco
                 imageRepository.delete(imageOptional.get());
                 log.info("Image deleted successfully from storage and database: {}", imageUri);
                 return true;

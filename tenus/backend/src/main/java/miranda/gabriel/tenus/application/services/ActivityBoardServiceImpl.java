@@ -4,8 +4,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import miranda.gabriel.tenus.adapters.inbounds.dto.board.BoardDetailDTO;
 import miranda.gabriel.tenus.adapters.inbounds.dto.board.BoardRequestDTO;
 import miranda.gabriel.tenus.adapters.inbounds.dto.board.BoardResponseDTO;
@@ -18,6 +20,7 @@ import miranda.gabriel.tenus.core.model.activity_board.ActivityBoardRepository;
 import miranda.gabriel.tenus.core.model.image.Image;
 import miranda.gabriel.tenus.infrastructure.exception.TenusExceptions;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ActivityBoardServiceImpl implements ActivityBoardUseCases{
@@ -59,6 +62,7 @@ public class ActivityBoardServiceImpl implements ActivityBoardUseCases{
         boardRepository.save(board);
     }
 
+    @Transactional(readOnly = true)
     public List<BoardResponseDTO> listUserBoards(String userId){
         var user = authService.validateUserId(userId);
 
@@ -75,6 +79,7 @@ public class ActivityBoardServiceImpl implements ActivityBoardUseCases{
 
     }
 
+    @Transactional(readOnly = true)
     public BoardDetailDTO getBoard(Long boardId, String userId){
         var user = authService.validateUserId(userId);
 
@@ -98,4 +103,30 @@ public class ActivityBoardServiceImpl implements ActivityBoardUseCases{
             tasksSummary
         );
     }
-}
+
+    @Transactional
+    public void deleteBoard(Long boardId, String userId) {
+        
+        var user = authService.validateUserId(userId);
+
+        var board = boardRepository.findById(boardId)
+            .orElseThrow(() -> new TenusExceptions.BoardNotFoundException(boardId));
+
+        if (!board.getOwner().getId().equals(user.getId())) {
+            throw new TenusExceptions.UnauthorizedOperationException("You do not have access to this board");
+        }
+
+        if (board.getImage() != null) {
+            imageService.deleteImage(board.getImage().getImageUri());
+        }
+
+        if (board.getTasks() != null && !board.getTasks().isEmpty()) {
+            board.getTasks().stream()
+                .filter(task -> task.getImage() != null)
+                .forEach(task -> imageService.deleteImage(task.getImage().getImageUri()));
+                }
+
+        boardRepository.delete(board);
+        
+        }
+    }

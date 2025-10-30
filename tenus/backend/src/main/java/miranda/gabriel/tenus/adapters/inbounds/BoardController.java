@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import miranda.gabriel.tenus.adapters.inbounds.dto.board.BoardDetailDTO;
 import miranda.gabriel.tenus.adapters.inbounds.dto.board.BoardRequestDTO;
 import miranda.gabriel.tenus.adapters.inbounds.dto.board.BoardResponseDTO;
@@ -17,12 +18,14 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 
 
 
 
 
+@Slf4j
 @RestController
 @RequestMapping("/boards")
 @RequiredArgsConstructor
@@ -48,6 +51,12 @@ public class BoardController {
     public ResponseEntity<BoardDetailDTO> getBoard(@PathVariable Long id, @AuthenticationPrincipal Jwt jwt) {
         var board = boardUseCases.getBoard(id, jwt.getSubject());
         return ResponseEntity.ok(board);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteBoard(@PathVariable Long id, @AuthenticationPrincipal Jwt jwt) {
+        boardUseCases.deleteBoard(id, jwt.getSubject());
+        return ResponseEntity.noContent().build();
     }
     
     

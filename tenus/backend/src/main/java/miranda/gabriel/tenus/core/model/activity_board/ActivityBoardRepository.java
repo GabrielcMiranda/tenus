@@ -10,5 +10,7 @@ public interface ActivityBoardRepository {
     List<ActivityBoard> findAll();
 
     Optional<ActivityBoard> findById(Long id);
+
+    void delete(ActivityBoard activityBoard);
     
 }
