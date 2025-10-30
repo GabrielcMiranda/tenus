@@ -1,4 +1,4 @@
-package miranda.gabriel.tenus.adapters.inbounds;
+package miranda.gabriel.tenus.adapters.inbounds.controllers;
 
 import java.time.LocalTime;
 

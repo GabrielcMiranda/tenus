@@ -1,4 +1,4 @@
-package miranda.gabriel.tenus.adapters.inbounds;
+package miranda.gabriel.tenus.adapters.inbounds.controllers;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
