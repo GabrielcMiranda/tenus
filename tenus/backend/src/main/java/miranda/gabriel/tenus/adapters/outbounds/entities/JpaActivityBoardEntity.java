@@ -35,7 +35,7 @@ public class JpaActivityBoardEntity {
     @JoinColumn(name = "user_id", nullable = false)
     private JpaUserEntity owner;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @OneToOne(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REFRESH})
     @JoinColumn(name = "image_id", unique = true)
     private JpaImageEntity image;
 

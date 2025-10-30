@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import miranda.gabriel.tenus.adapters.outbounds.cloudstorage.CloudStoragePort;
 import miranda.gabriel.tenus.application.usecases.ImageUsecases;
 import miranda.gabriel.tenus.core.model.image.Image;
+import miranda.gabriel.tenus.core.model.image.ImageRepository;
 import miranda.gabriel.tenus.infrastructure.exception.TenusExceptions;
 
 @Slf4j
@@ -21,6 +22,7 @@ import miranda.gabriel.tenus.infrastructure.exception.TenusExceptions;
 public class ImageServiceImpl implements ImageUsecases{
     
     private final CloudStoragePort cloudStoragePort;
+    private final ImageRepository imageRepository;
     
     public Image uploadImage(MultipartFile file) {
 
@@ -44,8 +46,10 @@ public class ImageServiceImpl implements ImageUsecases{
             image.setImageUri(imageUrl);
             image.setCreatedAt(LocalDateTime.now());
             image.setUpdatedAt(LocalDateTime.now());
-            return image;
             
+            var savedImage = imageRepository.save(image);
+            return savedImage;
+
         } catch (IOException e) {
             log.error("Error reading image file: {}", e.getMessage(), e);
             throw new TenusExceptions.BusinessRuleViolationException("Error processing image file");
