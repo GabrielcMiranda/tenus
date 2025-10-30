@@ -56,12 +56,38 @@ public class ImageServiceImpl implements ImageUsecases{
         }
     }
     
-    public boolean deleteImage(String imageUrl) {
-        if (imageUrl == null || imageUrl.trim().isEmpty()) {
+    public boolean deleteImage(String imageUri) {
+        if (imageUri == null || imageUri.trim().isEmpty()) {
             return true;
         }
         
-        return cloudStoragePort.deleteFile(imageUrl);
+        try {
+            // Buscar imagem no banco de dados
+            var imageOptional = imageRepository.findByImageUri(imageUri);
+            
+            if (imageOptional.isEmpty()) {
+                log.warn("Image not found in database: {}", imageUri);
+                // Tenta deletar do storage mesmo que não esteja no banco
+                return cloudStoragePort.deleteFile(imageUri);
+            }
+            
+            // Deletar do storage primeiro
+            boolean deletedFromStorage = cloudStoragePort.deleteFile(imageUri);
+            
+            if (deletedFromStorage) {
+                // Se deletou do storage, deleta do banco
+                imageRepository.delete(imageOptional.get());
+                log.info("Image deleted successfully from storage and database: {}", imageUri);
+                return true;
+            } else {
+                log.error("Failed to delete image from storage: {}", imageUri);
+                return false;
+            }
+            
+        } catch (Exception e) {
+            log.error("Error deleting image: {}", e.getMessage(), e);
+            throw new TenusExceptions.BusinessRuleViolationException("Error deleting image");
+        }
     }
     
     private void validateImage(MultipartFile file) {
