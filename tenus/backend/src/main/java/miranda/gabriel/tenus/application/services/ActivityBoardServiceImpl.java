@@ -30,6 +30,8 @@ public class ActivityBoardServiceImpl implements ActivityBoardUseCases{
     private final AuthUseCases authService;
     
     private final ImageUsecases imageService;
+    
+    private final miranda.gabriel.tenus.core.model.user.UserRepository userRepository;
 
     public void createBoard(BoardRequestDTO dto, String userId){
 
@@ -115,6 +117,11 @@ public class ActivityBoardServiceImpl implements ActivityBoardUseCases{
         if (!board.getOwner().getId().equals(user.getId())) {
             throw new TenusExceptions.UnauthorizedOperationException("You do not have access to this board");
         }
+
+        var mutableBoards = new java.util.ArrayList<>(user.getBoards());
+        mutableBoards.removeIf(b -> b.getId().equals(boardId));
+        user.setBoards(mutableBoards);
+        userRepository.save(user);
 
         if (board.getImage() != null) {
             imageService.deleteImage(board.getImage().getImageUri());

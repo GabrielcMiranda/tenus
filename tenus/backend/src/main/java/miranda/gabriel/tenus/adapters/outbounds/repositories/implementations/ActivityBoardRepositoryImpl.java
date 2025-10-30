@@ -48,6 +48,6 @@ public class ActivityBoardRepositoryImpl implements ActivityBoardRepository{
     @Override
     @Transactional
     public void delete(ActivityBoard activityBoard) {
-        jpaActivityBoardRepository.deleteByBoardId(activityBoard.getId());
+        jpaActivityBoardRepository.deleteById(activityBoard.getId());
     }
 }
