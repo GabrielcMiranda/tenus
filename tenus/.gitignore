@@ -44,3 +44,7 @@ public.key
 *.log
 *.log.*
 logs/
+
+### Cheatsheets ###
+http-status-codes.md
+conventional-commits.md
