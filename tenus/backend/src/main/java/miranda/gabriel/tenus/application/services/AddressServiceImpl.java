@@ -1,6 +1,7 @@
 package miranda.gabriel.tenus.application.services;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import miranda.gabriel.tenus.adapters.inbounds.dto.address.AddressRequestDTO;
@@ -22,6 +23,7 @@ public class AddressServiceImpl implements AddressUsecases{
     private final AuthUseCases authService;
 
     @Override
+    @Transactional
     public void registerAddress(TaskType taskType, Long id, AddressRequestDTO dto, String userId) {
         var user = authService.validateUserId(userId);
         
@@ -46,11 +48,9 @@ public class AddressServiceImpl implements AddressUsecases{
             address.setZipCode(dto.zipCode());
             address.setComplement(dto.complement());
 
-            addressRepository.save(address);
+            var savedAddress = addressRepository.save(address);
 
-            task.setAddress(address);
-            taskRepository.save(task);
-
+            task.setAddress(savedAddress);
             
         } else if (taskType == TaskType.TASK_LOG) {
             // Lógica para registrar endereço de um log de tarefa
