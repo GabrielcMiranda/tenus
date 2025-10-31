@@ -18,6 +18,7 @@ import miranda.gabriel.tenus.application.usecases.ImageUsecases;
 import miranda.gabriel.tenus.core.model.activity_board.ActivityBoard;
 import miranda.gabriel.tenus.core.model.activity_board.ActivityBoardRepository;
 import miranda.gabriel.tenus.core.model.image.Image;
+import miranda.gabriel.tenus.core.model.user.UserRepository;
 import miranda.gabriel.tenus.infrastructure.exception.TenusExceptions;
 
 @Slf4j
@@ -31,8 +32,9 @@ public class ActivityBoardServiceImpl implements ActivityBoardUseCases{
     
     private final ImageUsecases imageService;
     
-    private final miranda.gabriel.tenus.core.model.user.UserRepository userRepository;
+    private final UserRepository userRepository;
 
+    @Transactional
     public void createBoard(BoardRequestDTO dto, String userId){
 
         var user = authService.validateUserId(userId);
@@ -137,7 +139,8 @@ public class ActivityBoardServiceImpl implements ActivityBoardUseCases{
         
         }
 
-        public void updateBoard(Long boardId, BoardRequestDTO dto, String userId) {
+    @Transactional
+    public void updateBoard(Long boardId, BoardRequestDTO dto, String userId) {
         var user = authService.validateUserId(userId);
 
         var board = boardRepository.findById(boardId)

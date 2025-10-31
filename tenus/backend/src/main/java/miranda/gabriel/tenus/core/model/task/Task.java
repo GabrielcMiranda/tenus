@@ -14,31 +14,7 @@ import miranda.gabriel.tenus.core.model.task_log.TaskLog;
 
 public class Task {
 
-    public Task(Long id, String name, ActivityBoard board, Image image, Address address, String description,
-            LocalDate date, LocalTime startTime, LocalTime endTime, LocalDateTime createdAt, LocalDateTime updatedAt,
-            TaskStatus status,Boolean completed) {
-
-        if(startTime.isBefore(board.getOwner().getMessageTime())){
-            throw new IllegalArgumentException("Board message time needs to be earlier than any task of the day");
-        }
-
-        if (endTime.isBefore(startTime)) {
-            throw new IllegalArgumentException("Task cannot end before it starts");
-        }
-
-        this.id = id;
-        this.name = name;
-        this.board = board;
-        this.image = image;
-        this.address = address;
-        this.description = description;
-        this.date = date;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
-        this.status = status;
-        this.completed = completed;
+    public Task(){
         this.taskLogs = new ArrayList<>();
     }
 
