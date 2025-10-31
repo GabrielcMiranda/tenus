@@ -44,9 +44,10 @@ public class AddressServiceImpl implements AddressUsecases{
             address.setNeighbourhood(dto.neighbourhood());
             address.setNumber(dto.number());
             address.setZipCode(dto.zipCode());
+            address.setComplement(dto.complement());
 
             addressRepository.save(address);
-            
+
             task.setAddress(address);
             taskRepository.save(task);
 

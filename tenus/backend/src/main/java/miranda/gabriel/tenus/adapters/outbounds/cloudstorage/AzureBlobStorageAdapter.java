@@ -43,19 +43,15 @@ public class AzureBlobStorageAdapter implements CloudStoragePort {
             log.error("ERRO ao conectar com Azure Blob Storage: {}", e.getMessage());
             log.error("Connection String (primeiros 50 chars): {}", 
                      connectionString.substring(0, Math.min(50, connectionString.length())));
-            log.error("Verifique se:");
-            log.error("1. O Storage Account 'tenusimages' existe no Azure");
-            log.error("2. A Access Key está correta e não foi regenerada");
-            log.error("3. Não há firewall bloqueando a conexão");
             throw new RuntimeException("Failed to initialize Azure Blob Storage: " + e.getMessage(), e);
         }
     }
     
     @Override
-    public String uploadFile(String fileName, InputStream fileContent, String contentType, long fileSize) {
+    public String uploadFile(String fileName, InputStream fileContent, String contentType, long fileSize, String folderPath) {
         try {
             
-            String uniqueFileName = generateUniqueFileName(fileName);
+            String uniqueFileName = generateUniqueFileName(fileName, folderPath);
             
             BlobContainerClient containerClient = blobServiceClient.getBlobContainerClient(containerName);
             BlobClient blobClient = containerClient.getBlobClient(uniqueFileName);
@@ -137,24 +133,53 @@ public class AzureBlobStorageAdapter implements CloudStoragePort {
         }
     }
     
-    private String generateUniqueFileName(String originalFileName) {
+    private String generateUniqueFileName(String originalFileName, String folderPath) {
         String fileExtension = "";
         
         if (originalFileName != null && originalFileName.contains(".")) {
             fileExtension = originalFileName.substring(originalFileName.lastIndexOf("."));
         }
         
-        return "boards/" + UUID.randomUUID().toString() + fileExtension;
+        // Estrutura: user-{userId}/{entityType}/{uuid}.jpg
+        return folderPath + "/" + UUID.randomUUID().toString() + fileExtension;
     }
     
     private String extractBlobNameFromUrl(String fileUrl) {
-        // Estrutura: https://storage.blob.core.windows.net/container/boards/uuid.jpg 
+    
         try {
             String[] urlParts = fileUrl.split("/");
+            
+            int containerIndex = -1;
+            for (int i = 0; i < urlParts.length; i++) {
+                if (urlParts[i].equals(containerName)) {
+                    containerIndex = i;
+                    break;
+                }
+            }
+            
+            if (containerIndex != -1 && containerIndex < urlParts.length - 1) {
+                StringBuilder blobName = new StringBuilder();
+                for (int i = containerIndex + 1; i < urlParts.length; i++) {
+                    if (i > containerIndex + 1) {
+                        blobName.append("/");
+                    }
+                    blobName.append(urlParts[i]);
+                }
+                return blobName.toString();
+            }
+            
+            if (urlParts.length >= 3) {
+                return urlParts[urlParts.length - 3] + "/" + 
+                       urlParts[urlParts.length - 2] + "/" + 
+                       urlParts[urlParts.length - 1];
+            }
+            
             if (urlParts.length >= 2) {
                 return urlParts[urlParts.length - 2] + "/" + urlParts[urlParts.length - 1];
             }
+            
             return urlParts[urlParts.length - 1];
+            
         } catch (Exception e) {
             log.warn("Could not extract blob name from URL: {}", fileUrl);
             return fileUrl;

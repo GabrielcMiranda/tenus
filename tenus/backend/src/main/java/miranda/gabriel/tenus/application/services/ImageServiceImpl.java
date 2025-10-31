@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import miranda.gabriel.tenus.adapters.outbounds.cloudstorage.CloudStoragePort;
 import miranda.gabriel.tenus.application.usecases.ImageUsecases;
+import miranda.gabriel.tenus.core.enums.ImageEntityType;
 import miranda.gabriel.tenus.core.model.image.Image;
 import miranda.gabriel.tenus.core.model.image.ImageRepository;
 import miranda.gabriel.tenus.infrastructure.exception.TenusExceptions;
@@ -24,7 +25,8 @@ public class ImageServiceImpl implements ImageUsecases{
     private final CloudStoragePort cloudStoragePort;
     private final ImageRepository imageRepository;
     
-    public Image uploadImage(MultipartFile file) {
+    @Override
+    public Image uploadImage(MultipartFile file, String userId, ImageEntityType entityType) {
 
         if (file == null || file.isEmpty()) {
             return null;
@@ -33,11 +35,14 @@ public class ImageServiceImpl implements ImageUsecases{
         validateImage(file);
         
         try {
+            String folderPath = "user-" + userId + "/" + entityType.getFolderName();
+            
             String imageUrl = cloudStoragePort.uploadFile(
                 file.getOriginalFilename(),
                 file.getInputStream(),
                 file.getContentType(),
-                file.getSize()
+                file.getSize(),
+                folderPath
             );
             
             log.info("Image uploaded successfully: {}", imageUrl);

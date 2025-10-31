@@ -11,6 +11,7 @@ import miranda.gabriel.tenus.adapters.inbounds.dto.task.TaskRequestDTO;
 import miranda.gabriel.tenus.application.usecases.AuthUseCases;
 import miranda.gabriel.tenus.application.usecases.ImageUsecases;
 import miranda.gabriel.tenus.application.usecases.TaskUsecases;
+import miranda.gabriel.tenus.core.enums.ImageEntityType;
 import miranda.gabriel.tenus.core.enums.TaskStatus;
 import miranda.gabriel.tenus.core.model.image.Image;
 import miranda.gabriel.tenus.core.model.task.Task;
@@ -35,7 +36,7 @@ public class TaskServiceImpl implements TaskUsecases{
             .orElseThrow(() -> new TenusExceptions.BoardNotFoundException(dto.getBoardId()));
         Image image = null;
         if (dto.getImage() != null && !dto.getImage().isEmpty()) {  
-            image = imageService.uploadImage(dto.getImage());
+            image = imageService.uploadImage(dto.getImage(), userId, ImageEntityType.TASK);
         }
 
         if(dto.getStartTime().isBefore(user.getMessageTime()) || dto.getEndTime().isBefore(user.getMessageTime())) {
@@ -66,19 +67,4 @@ public class TaskServiceImpl implements TaskUsecases{
         taskRepository.save(task);
     }
 
-    public void validateTaskDateAndTime(TaskRequestDTO dto, String userId) {
-        var user = authService.validateUserId(userId);
-
-        if(dto.getStartTime().isBefore(user.getMessageTime()) || dto.getEndTime().isBefore(user.getMessageTime())) {
-            throw new TenusExceptions.BusinessRuleViolationException("Task time cannot be before user's message time");
-        }
-
-        if(dto.getEndTime().isBefore(dto.getStartTime())) {
-            throw new TenusExceptions.BusinessRuleViolationException("Task end time cannot be before start time");
-        }
-
-        if(dto.getDate().isBefore(LocalDate.now())) {
-            throw new TenusExceptions.BusinessRuleViolationException("Task date cannot be in the past");
-        }
-    }
 }

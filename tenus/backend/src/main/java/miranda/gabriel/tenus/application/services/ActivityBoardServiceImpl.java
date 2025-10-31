@@ -15,6 +15,7 @@ import miranda.gabriel.tenus.adapters.inbounds.dto.task.TaskSummaryDTO;
 import miranda.gabriel.tenus.application.usecases.ActivityBoardUseCases;
 import miranda.gabriel.tenus.application.usecases.AuthUseCases;
 import miranda.gabriel.tenus.application.usecases.ImageUsecases;
+import miranda.gabriel.tenus.core.enums.ImageEntityType;
 import miranda.gabriel.tenus.core.model.activity_board.ActivityBoard;
 import miranda.gabriel.tenus.core.model.activity_board.ActivityBoardRepository;
 import miranda.gabriel.tenus.core.model.image.Image;
@@ -53,7 +54,7 @@ public class ActivityBoardServiceImpl implements ActivityBoardUseCases{
 
         Image boardImage = null;
         if (dto.getImage() != null && !dto.getImage().isEmpty()) {
-            boardImage = imageService.uploadImage(dto.getImage());
+            boardImage = imageService.uploadImage(dto.getImage(), userId, ImageEntityType.BOARD);
         }
 
         var board = new ActivityBoard();
@@ -161,7 +162,7 @@ public class ActivityBoardServiceImpl implements ActivityBoardUseCases{
             if (board.getImage() != null) {
                 imageService.deleteImage(board.getImage().getImageUri());
             }
-            Image newImage = imageService.uploadImage(dto.getImage());
+            Image newImage = imageService.uploadImage(dto.getImage(), userId, ImageEntityType.BOARD);
             board.setImage(newImage);
         }
 
