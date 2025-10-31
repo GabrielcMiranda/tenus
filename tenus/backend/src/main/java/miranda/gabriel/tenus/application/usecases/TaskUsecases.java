@@ -4,5 +4,5 @@ import miranda.gabriel.tenus.adapters.inbounds.dto.task.TaskRequestDTO;
 
 public interface TaskUsecases {
 
-    public void createTask(TaskRequestDTO dto, String userId);
+    public void createTask(TaskRequestDTO dto, Long boardId, String userId);
 }

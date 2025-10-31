@@ -27,13 +27,13 @@ public class TaskServiceImpl implements TaskUsecases{
     private final ImageUsecases imageService;
 
     @Transactional
-    public void createTask(TaskRequestDTO dto, String userId) {
+    public void createTask(TaskRequestDTO dto, Long boardId, String userId) {
         var user = authService.validateUserId(userId);
 
         var board = user.getBoards().stream()
-            .filter(b -> b.getId().equals(dto.getBoardId()))
+            .filter(b -> b.getId().equals(boardId))
             .findFirst()
-            .orElseThrow(() -> new TenusExceptions.BoardNotFoundException(dto.getBoardId()));
+            .orElseThrow(() -> new TenusExceptions.BoardNotFoundException(boardId));
         Image image = null;
         if (dto.getImage() != null && !dto.getImage().isEmpty()) {  
             image = imageService.uploadImage(dto.getImage(), userId, ImageEntityType.TASK);

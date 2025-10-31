@@ -10,8 +10,6 @@ import lombok.Data;
 @Data
 public class TaskRequestDTO {
 
-    private Long boardId;
-
     private String name;
 
     private MultipartFile image;
