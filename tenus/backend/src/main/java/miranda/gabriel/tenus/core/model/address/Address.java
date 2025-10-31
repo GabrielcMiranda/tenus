@@ -2,21 +2,8 @@ package miranda.gabriel.tenus.core.model.address;
 
 public class Address {
 
-    public Address(Long id, String street, Long number, String neighbourhood, String city, String state, String zipCode,
-            String complement, Double latitude, Double longitude) {
-        if (zipCode == null || zipCode.length() < 8) {
-            throw new IllegalArgumentException("invalid zipcode");
-        }
-        this.id = id;
-        this.street = street;
-        this.number = number;
-        this.neighbourhood = neighbourhood;
-        this.city = city;
-        this.state = state;
-        this.zipCode = zipCode;
-        this.complement = complement;
-        this.latitude = latitude;
-        this.longitude = longitude;
+    public Address() {
+        
     }
 
     private Long id;

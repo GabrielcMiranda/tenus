@@ -1,5 +1,7 @@
 package miranda.gabriel.tenus.adapters.outbounds.repositories.implementations;
 
+import java.util.Optional;
+
 import org.springframework.stereotype.Repository;
 
 import lombok.RequiredArgsConstructor;
@@ -20,6 +22,12 @@ public class TaskRepositoryImpl implements TaskRepository{
         var entity  = mapperService.taskToEntity(task);
         var savedEntity = jpaTaskRepository.save(entity);
         return mapperService.taskToDomain(savedEntity);
+    }
+
+    @Override
+    public Optional<Task> findById(Long id) {
+        return jpaTaskRepository.findById(id)
+            .map(mapperService::taskToDomain);
     }
     
 }

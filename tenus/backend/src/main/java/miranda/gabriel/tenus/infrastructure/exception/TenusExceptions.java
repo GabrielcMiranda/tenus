@@ -26,6 +26,12 @@ public class TenusExceptions {
             super(HttpStatus.NOT_FOUND, "Activity board not found with ID: " + boardId);
         }
     }
+
+     public static class TaskNotFoundException extends ResponseStatusException {
+        public TaskNotFoundException(Long taskId) {
+            super(HttpStatus.NOT_FOUND, "Task not found with ID: " + taskId);
+        }
+    }
     
     public static class BusinessRuleViolationException extends ResponseStatusException {
         public BusinessRuleViolationException(String message) {
