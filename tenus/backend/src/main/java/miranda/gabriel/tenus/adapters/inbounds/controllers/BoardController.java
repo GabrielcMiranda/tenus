@@ -20,9 +20,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-
-
-
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 
 @Slf4j
@@ -59,6 +58,11 @@ public class BoardController {
         return ResponseEntity.noContent().build();
     }
     
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateBoard(@PathVariable Long id, @RequestBody BoardRequestDTO dto, @AuthenticationPrincipal Jwt jwt) {
+        boardUseCases.updateBoard(id, dto, jwt.getSubject());
+        return ResponseEntity.ok().build();
+    }
     
     
 }

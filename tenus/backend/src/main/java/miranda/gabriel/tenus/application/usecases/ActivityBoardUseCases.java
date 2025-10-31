@@ -15,4 +15,6 @@ public interface ActivityBoardUseCases {
     public BoardDetailDTO getBoard(Long boardId, String userId);
 
     public void deleteBoard(Long boardId, String userId);
+
+    public void updateBoard(Long boardId, BoardRequestDTO dto, String userId);
 }

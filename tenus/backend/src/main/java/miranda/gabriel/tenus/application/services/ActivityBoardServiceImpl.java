@@ -136,4 +136,33 @@ public class ActivityBoardServiceImpl implements ActivityBoardUseCases{
         boardRepository.delete(board);
         
         }
+
+        public void updateBoard(Long boardId, BoardRequestDTO dto, String userId) {
+        var user = authService.validateUserId(userId);
+
+        var board = boardRepository.findById(boardId)
+            .orElseThrow(() -> new TenusExceptions.BoardNotFoundException(boardId));
+
+        if (!board.getOwner().getId().equals(user.getId())) {
+            throw new TenusExceptions.UnauthorizedOperationException("You do not have access to this board");
+        }
+
+        if (dto.getName() == null || dto.getName().isEmpty()) {
+            throw new TenusExceptions.BusinessRuleViolationException("Board name cannot be empty");
+        }
+
+        board.setName(dto.getName());
+        board.setUpdatedAt(LocalDateTime.now());
+
+        if (dto.getImage() != null) {
+            if (board.getImage() != null) {
+                imageService.deleteImage(board.getImage().getImageUri());
+            }
+            Image newImage = imageService.uploadImage(dto.getImage());
+            board.setImage(newImage);
+        }
+
+        boardRepository.save(board);
+
     }
+}
