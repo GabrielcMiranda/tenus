@@ -25,6 +25,8 @@ public class MapperService {
     private final TaskMapper taskMapper;
 
     private final TaskLogMapper taskLogMapper;
+    
+    private final AddressMapper addressMapper;
 
 
     public User userToDomain(JpaUserEntity entity) {
@@ -101,6 +103,10 @@ public class MapperService {
         
         if (entity.getTaskLogs() != null) {
             task.setTaskLogs(taskLogToDomainList(entity.getTaskLogs()));
+        }
+        
+        if (entity.getAddress() != null) {
+            task.setAddress(addressMapper.toDomain(entity.getAddress()));
         }
         
         return task;

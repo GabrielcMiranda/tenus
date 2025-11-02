@@ -50,7 +50,7 @@ public class AddressServiceImpl implements AddressUsecases{
 
             var savedAddress = addressRepository.save(address);
 
-            task.setAddress(savedAddress);
+            taskRepository.updateAddress(id, savedAddress);
             
         } else if (taskType == TaskType.TASK_LOG) {
             // Lógica para registrar endereço de um log de tarefa

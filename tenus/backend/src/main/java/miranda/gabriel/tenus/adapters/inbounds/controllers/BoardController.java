@@ -9,6 +9,7 @@ import miranda.gabriel.tenus.adapters.inbounds.dto.board.BoardDetailDTO;
 import miranda.gabriel.tenus.adapters.inbounds.dto.board.BoardRequestDTO;
 import miranda.gabriel.tenus.adapters.inbounds.dto.board.BoardResponseDTO;
 import miranda.gabriel.tenus.adapters.inbounds.dto.task.TaskRequestDTO;
+import miranda.gabriel.tenus.adapters.inbounds.dto.task.TaskSummaryDTO;
 import miranda.gabriel.tenus.application.usecases.ActivityBoardUseCases;
 import miranda.gabriel.tenus.application.usecases.TaskUsecases;
 
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @Slf4j
@@ -74,6 +77,13 @@ public class BoardController {
 
         return ResponseEntity.status(201).body("Task created successfully");
     }
+
+    @GetMapping("/{id}/tasks")
+    public ResponseEntity<List<TaskSummaryDTO>> listTasks(@PathVariable Long id, @AuthenticationPrincipal Jwt jwt, @RequestParam(required = false) String dayOfWeek) {
+        var tasks = taskService.listTasks(id, jwt.getSubject(), dayOfWeek);
+        return ResponseEntity.ok(tasks);
+    }
+    
     
     
     

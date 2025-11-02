@@ -39,6 +39,10 @@ public class TaskLog {
         return id;
     }
 
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public Task getTask() {
         return task;
     }
