@@ -9,7 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import miranda.gabriel.tenus.core.model.address.Address;
@@ -25,10 +27,20 @@ public class NominatimGeocodingAdapter implements GeocodingServicePort {
     private final RestTemplate restTemplate = new RestTemplate();
 
     @Override
-    @Cacheable(value = "geocode", key = "#address.street + ',' + #address.number + ',' + #address.city + ',' + #address.state")
     public Address geocodeAddress(Address address) {
         
         String fullAddress = buildFullAddress(address);
+        
+        Coordinates coordinates = getCoordinates(fullAddress);
+        
+        address.setLatitude(coordinates.getLatitude());
+        address.setLongitude(coordinates.getLongitude());
+        
+        return address;
+    }
+
+    @Cacheable(value = "geocode", key = "#fullAddress")
+    private Coordinates getCoordinates(String fullAddress) {
         
         log.info("Geocoding address: {}", fullAddress);
         
@@ -58,15 +70,15 @@ public class NominatimGeocodingAdapter implements GeocodingServicePort {
             
             NominatimResponse result = results[0];
             
-            address.setLatitude(Double.parseDouble(result.getLat()));
-            address.setLongitude(Double.parseDouble(result.getLon()));
+            double latitude = Double.parseDouble(result.getLat());
+            double longitude = Double.parseDouble(result.getLon());
             
-            log.info("Geocoding successful: lat={}, lon={}", result.getLat(), result.getLon());
+            log.info("Geocoding successful: lat={}, lon={}", latitude, longitude);
             
             //rate limit da API (1 req/s) pra nao quebrar
             Thread.sleep(1000);
             
-            return address;
+            return new Coordinates(latitude, longitude);
             
         } catch (InterruptedException e) {
             Thread.currentThread().interrupt();
@@ -114,5 +126,13 @@ public class NominatimGeocodingAdapter implements GeocodingServicePort {
         private String lat;
         private String lon;
         private String display_name;
+    }
+
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class Coordinates {
+        private Double latitude;
+        private Double longitude;
     }
 }

@@ -6,8 +6,6 @@ import lombok.Data;
 
 @Data
 public class TaskLogRequestDTO {
-    
-    private Long taskId;
 
     private MultipartFile image;
 

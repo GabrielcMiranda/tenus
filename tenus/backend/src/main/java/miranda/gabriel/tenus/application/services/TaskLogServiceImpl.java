@@ -30,11 +30,11 @@ public class TaskLogServiceImpl implements TaskLogUsecases{
     private final LocationValidationServicePort locationValidationService;
 
     @Transactional
-    public void createTaskLog(TaskLogRequestDTO dto, String userId) {
+    public void createTaskLog(Long taskId, TaskLogRequestDTO dto, String userId) {
         var user = authService.validateUserId(userId);
 
-        var task = taskRepository.findById(dto.getTaskId())
-            .orElseThrow(() -> new TenusExceptions.TaskNotFoundException(dto.getTaskId()));
+        var task = taskRepository.findById(taskId)
+            .orElseThrow(() -> new TenusExceptions.TaskNotFoundException(taskId));
 
         if (!user.getId().equals(task.getBoard().getOwner().getId())) {
             throw new TenusExceptions.UnauthorizedOperationException("User does not have permission to register a log on this task");
