@@ -32,9 +32,14 @@ public class JpaTaskLogEntity {
     @JoinColumn(name = "image_id", unique = true)
     private JpaImageEntity image;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "address_id")
-    private JpaAddressEntity address;
+    @Column(name = "user_latitude")
+    private Double userLatitude;
+
+    @Column(name = "user_longitude")
+    private Double userLongitude;
+
+    @Column(name = "location_accuracy")
+    private Double locationAccuracy;
 
     private String description;
 

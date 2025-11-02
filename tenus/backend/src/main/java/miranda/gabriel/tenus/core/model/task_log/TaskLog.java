@@ -2,7 +2,6 @@ package miranda.gabriel.tenus.core.model.task_log;
 
 import java.time.LocalDateTime;
 
-import miranda.gabriel.tenus.core.model.address.Address;
 import miranda.gabriel.tenus.core.model.image.Image;
 import miranda.gabriel.tenus.core.model.task.Task;
 
@@ -10,15 +9,7 @@ public class TaskLog {
 
     
 
-    public TaskLog(Long id, Task task, Image image, Address address, String description, LocalDateTime logTime,
-            Integer points) {
-        this.id = id;
-        this.task = task;
-        this.image = image;
-        this.address = address;
-        this.description = description;
-        this.logTime = logTime;
-        this.points = points;
+    public TaskLog() {
     }
 
     private Long id;
@@ -27,7 +18,11 @@ public class TaskLog {
 
     private Image image;
 
-    private Address address;
+    private Double userLatitude;
+
+    private Double userLongitude;
+
+    private Double locationAccuracy;
 
     private String description;
 
@@ -59,12 +54,28 @@ public class TaskLog {
         this.image = image;
     }
 
-    public Address getAddress() {
-        return address;
+    public Double getUserLatitude() {
+        return userLatitude;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setUserLatitude(Double userLatitude) {
+        this.userLatitude = userLatitude;
+    }
+
+    public Double getUserLongitude() {
+        return userLongitude;
+    }
+
+    public void setUserLongitude(Double userLongitude) {
+        this.userLongitude = userLongitude;
+    }
+
+    public Double getLocationAccuracy() {
+        return locationAccuracy;
+    }
+
+    public void setLocationAccuracy(Double locationAccuracy) {
+        this.locationAccuracy = locationAccuracy;
     }
 
     public String getDescription() {

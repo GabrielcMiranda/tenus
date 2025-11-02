@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 import miranda.gabriel.tenus.adapters.outbounds.entities.JpaTaskLogEntity;
 import miranda.gabriel.tenus.core.model.task_log.TaskLog;
 
-@Mapper(componentModel = "spring", uses = {ImageMapper.class, AddressMapper.class})
+@Mapper(componentModel = "spring", uses = {ImageMapper.class})
 public interface TaskLogMapper {
 
     @Mapping(target = "task", ignore = true)
