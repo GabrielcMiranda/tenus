@@ -30,6 +30,10 @@ public class AddressServiceImpl implements AddressUsecases{
         if (taskType == TaskType.TASK) {
             var task = taskRepository.findById(id)
                 .orElseThrow(() -> new TenusExceptions.TaskNotFoundException(id));
+
+            if(task.getAddress() != null) {
+                throw new TenusExceptions.BusinessRuleViolationException("Task already has an address. Use update endpoint instead.");
+            }
             
             if (!task.getBoard().getOwner().getId().equals(user.getId())) {
                 throw new TenusExceptions.UnauthorizedOperationException("User not authorized to add address to this task");
@@ -54,6 +58,40 @@ public class AddressServiceImpl implements AddressUsecases{
             
         } else if (taskType == TaskType.TASK_LOG) {
             // Lógica para registrar endereço de um log de tarefa
+        }
+    }
+
+    @Transactional
+    public void updateAddress(TaskType taskType, Long id, AddressRequestDTO dto, String userId) {
+        var user = authService.validateUserId(userId);
+        
+        if (taskType == TaskType.TASK) {
+            var task = taskRepository.findById(id)
+                .orElseThrow(() -> new TenusExceptions.TaskNotFoundException(id));
+            
+            if (task.getAddress() == null) {
+                throw new TenusExceptions.BusinessRuleViolationException("Task does not have an address. Use register endpoint instead.");
+            }
+
+            if (!task.getBoard().getOwner().getId().equals(user.getId())) {
+                throw new TenusExceptions.UnauthorizedOperationException("User not authorized to update address of this task");
+            }
+
+            var address = task.getAddress();
+            address.setStreet(dto.street());
+            address.setCity(dto.city());
+            address.setState(dto.state());
+            address.setNeighbourhood(dto.neighbourhood());
+            address.setNumber(dto.number());
+            address.setZipCode(dto.zipCode());
+            address.setComplement(dto.complement());
+
+            var savedAddress = addressRepository.save(address);
+
+            taskRepository.updateAddress(id, savedAddress);
+            
+        } else if (taskType == TaskType.TASK_LOG) {
+            // Lógica para atualizar endereço de um log de tarefa
         }
     }
 }
