@@ -158,5 +158,37 @@ public class TaskServiceImpl implements TaskUsecases{
         );
     }
 
-}
+    @Transactional
+    public void updateTaskDTO(Long boardId, Long taskId, TaskRequestDTO dto, String userId) {
+        var user = authService.validateUserId(userId);
 
+        var board = user.getBoards().stream()
+            .filter(b -> b.getId().equals(boardId))
+            .findFirst()
+            .orElseThrow(() -> new TenusExceptions.BoardNotFoundException(boardId));
+
+        var task = board.getTasks().stream()
+            .filter(t -> t.getId().equals(taskId))
+            .findFirst()
+            .orElseThrow(() -> new TenusExceptions.TaskNotFoundException(taskId));
+
+        if(dto.getStartTime().isBefore(user.getMessageTime()) || dto.getEndTime().isBefore(user.getMessageTime())) {
+            throw new TenusExceptions.BusinessRuleViolationException("Task time cannot be before user's message time");
+        }
+
+        if(dto.getEndTime().isBefore(dto.getStartTime())) {
+            throw new TenusExceptions.BusinessRuleViolationException("Task end time cannot be before start time");
+        }
+
+        if(dto.getDate().isBefore(LocalDate.now())) {
+            throw new TenusExceptions.BusinessRuleViolationException("Task date cannot be in the past");
+        }
+
+        task.setName(dto.getName());
+        task.setDescription(dto.getDescription());
+        task.setStartTime(dto.getStartTime());
+        task.setEndTime(dto.getEndTime());
+
+        taskRepository.save(task);
+    }
+}

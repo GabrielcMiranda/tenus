@@ -78,6 +78,14 @@ public class BoardController {
         return ResponseEntity.status(201).body("Task created successfully");
     }
 
+     @PutMapping("/{boardId}/tasks/{taskId}")
+    public ResponseEntity<Void> updateTask(@ModelAttribute TaskRequestDTO dto, @PathVariable Long boardId, @PathVariable Long taskId, @AuthenticationPrincipal Jwt jwt) {
+
+        taskService.updateTaskDTO(boardId, taskId, dto, jwt.getSubject());
+
+        return ResponseEntity.ok().build();
+    }
+
     @GetMapping("/{id}/tasks")
     public ResponseEntity<List<TaskSummaryDTO>> listTasks(@PathVariable Long id, @AuthenticationPrincipal Jwt jwt, @RequestParam(required = false) String dayOfWeek) {
         var tasks = taskService.listTasks(id, jwt.getSubject(), dayOfWeek);

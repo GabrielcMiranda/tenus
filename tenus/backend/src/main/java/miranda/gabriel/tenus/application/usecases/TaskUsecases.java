@@ -17,4 +17,6 @@ public interface TaskUsecases {
 
     public AddressRequestDTO getTaskAddress(Long taskId, String userId);
 
+    public void updateTaskDTO(Long boardId, Long taskId, TaskRequestDTO dto, String userId);
+
 }
