@@ -1,4 +1,4 @@
-package miranda.gabriel.tenus.application.services;
+package miranda.gabriel.tenus.adapters.outbounds.geocoding;
 
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpEntity;
@@ -14,32 +14,17 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import miranda.gabriel.tenus.core.model.address.Address;
 
-/**
- * Service for geocoding addresses using OpenStreetMap Nominatim API.
- * Converts street addresses to geographic coordinates (latitude/longitude).
- * 
- * Free tier limitations:
- * - 1 request per second
- * - Usage policy: https://operations.osmfoundation.org/policies/nominatim/
- */
 @Service
 @RequiredArgsConstructor
 @Slf4j
-public class GeocodingService {
+public class NominatimGeocodingAdapter implements GeocodingServicePort {
 
     private static final String NOMINATIM_API_URL = "https://nominatim.openstreetmap.org/search";
-    private static final String USER_AGENT = "TenusApp/1.0"; // Required by Nominatim
+    private static final String USER_AGENT = "TenusApp/1.0";
     
     private final RestTemplate restTemplate = new RestTemplate();
 
-    /**
-     * Geocodes an address to obtain latitude and longitude coordinates.
-     * Results are cached by full address string for 90 days.
-     * 
-     * @param address Address object with street, city, state, etc.
-     * @return Address object with latitude and longitude populated
-     * @throws RuntimeException if geocoding fails
-     */
+    @Override
     @Cacheable(value = "geocode", key = "#address.street + ',' + #address.number + ',' + #address.city + ',' + #address.state")
     public Address geocodeAddress(Address address) {
         
@@ -78,6 +63,7 @@ public class GeocodingService {
             
             log.info("Geocoding successful: lat={}, lon={}", result.getLat(), result.getLon());
             
+            //rate limit da API (1 req/s) pra nao quebrar
             Thread.sleep(1000);
             
             return address;

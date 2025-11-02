@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import miranda.gabriel.tenus.adapters.inbounds.dto.tasklog.TaskLogRequestDTO;
+import miranda.gabriel.tenus.adapters.outbounds.location.LocationValidationServicePort;
 import miranda.gabriel.tenus.application.usecases.AuthUseCases;
 import miranda.gabriel.tenus.application.usecases.ImageUsecases;
 import miranda.gabriel.tenus.application.usecases.TaskLogUsecases;
@@ -26,7 +27,7 @@ public class TaskLogServiceImpl implements TaskLogUsecases{
     private final AuthUseCases authService;
     private final TaskRepository taskRepository;
     private final ImageUsecases imageService;
-    private final LocationValidationService locationValidationService;
+    private final LocationValidationServicePort locationValidationService;
 
     @Transactional
     public void createTaskLog(TaskLogRequestDTO dto, String userId) {

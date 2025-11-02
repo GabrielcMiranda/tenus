@@ -5,6 +5,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import miranda.gabriel.tenus.adapters.inbounds.dto.address.AddressRequestDTO;
+import miranda.gabriel.tenus.adapters.outbounds.geocoding.GeocodingServicePort;
 import miranda.gabriel.tenus.application.usecases.AddressUsecases;
 import miranda.gabriel.tenus.application.usecases.AuthUseCases;
 import miranda.gabriel.tenus.core.model.address.Address;
@@ -22,7 +23,7 @@ public class AddressServiceImpl implements AddressUsecases{
 
     private final AuthUseCases authService;
     
-    private final GeocodingService geocodingService;
+    private final GeocodingServicePort geocodingService;
 
     @Override
     @Transactional

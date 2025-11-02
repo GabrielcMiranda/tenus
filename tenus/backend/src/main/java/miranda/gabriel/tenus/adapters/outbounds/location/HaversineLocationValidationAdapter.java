@@ -1,4 +1,4 @@
-package miranda.gabriel.tenus.application.services;
+package miranda.gabriel.tenus.adapters.outbounds.location;
 
 import org.springframework.stereotype.Service;
 
@@ -9,12 +9,13 @@ import miranda.gabriel.tenus.infrastructure.exception.TenusExceptions;
 
 @Service
 @RequiredArgsConstructor
-public class LocationValidationService {
+public class HaversineLocationValidationAdapter implements LocationValidationServicePort {
 
     private static final double MAX_DISTANCE_METERS = 100.0;
     
     private static final double EARTH_RADIUS_METERS = 6371000.0;
 
+    @Override
     public double validateProximity(Double userLatitude, Double userLongitude, Address taskAddress) {
         
         validateCoordinates(userLatitude, userLongitude, "User location");
@@ -60,7 +61,6 @@ public class LocationValidationService {
         return EARTH_RADIUS_METERS * c;
     }
 
-
     private void validateCoordinates(Double latitude, Double longitude, String locationName) {
         if (latitude == null || longitude == null) {
             throw new TenusExceptions.InvalidLocationException(
@@ -80,7 +80,7 @@ public class LocationValidationService {
             );
         }
         
-        //erro gps
+        // erro gps
         if (latitude == 0.0 && longitude == 0.0) {
             throw new TenusExceptions.InvalidLocationException(
                 locationName + " has default coordinates (0,0). Please enable GPS and try again"
