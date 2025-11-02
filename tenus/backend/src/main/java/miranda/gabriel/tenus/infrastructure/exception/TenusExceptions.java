@@ -68,4 +68,16 @@ public class TenusExceptions {
             super(HttpStatus.UNAUTHORIZED, "Invalid username or password");
         }
     }
+
+    public static class LocationTooFarException extends ResponseStatusException {
+        public LocationTooFarException(String message) {
+            super(HttpStatus.BAD_REQUEST, message);
+        }
+    }
+
+    public static class InvalidLocationException extends ResponseStatusException {
+        public InvalidLocationException(String message) {
+            super(HttpStatus.BAD_REQUEST, message);
+        }
+    }
 }

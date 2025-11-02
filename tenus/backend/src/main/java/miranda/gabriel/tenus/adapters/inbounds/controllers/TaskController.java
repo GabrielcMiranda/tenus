@@ -31,14 +31,14 @@ public class TaskController {
     @PostMapping("/{id}/address")
     public ResponseEntity<String> registerAddress(@PathVariable Long id,@RequestBody AddressRequestDTO dto, @AuthenticationPrincipal Jwt jwt) {
 
-        addressService.registerAddress(AddressUsecases.TaskType.TASK, id, dto, jwt.getSubject());
+        addressService.registerAddress(id, dto, jwt.getSubject());
         return ResponseEntity.status(201).body("Address created successfully");
     }
 
     @PutMapping("/{id}/address")
     public ResponseEntity<String> updateAddress(@PathVariable Long id,@RequestBody AddressRequestDTO dto, @AuthenticationPrincipal Jwt jwt) {
 
-        addressService.updateAddress(AddressUsecases.TaskType.TASK, id, dto, jwt.getSubject());
+        addressService.updateAddress(id, dto, jwt.getSubject());
         return ResponseEntity.ok().build();
     }
 
