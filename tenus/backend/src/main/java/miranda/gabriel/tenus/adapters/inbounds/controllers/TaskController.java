@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import lombok.RequiredArgsConstructor;
 import miranda.gabriel.tenus.adapters.inbounds.dto.address.AddressRequestDTO;
 import miranda.gabriel.tenus.adapters.inbounds.dto.task.TaskResponseDTO;
+import miranda.gabriel.tenus.adapters.inbounds.dto.task.TaskScheduleRequestDTO;
 import miranda.gabriel.tenus.adapters.inbounds.dto.tasklog.TaskLogRequestDTO;
 import miranda.gabriel.tenus.application.usecases.AddressUsecases;
 import miranda.gabriel.tenus.application.usecases.TaskLogUsecases;
@@ -65,5 +66,10 @@ public class TaskController {
         return ResponseEntity.status(201).body("Task log created successfully");
     }
     
+    @PutMapping("/{id}/schedule")
+    public ResponseEntity<String> updateTaskSchedule(@PathVariable Long id, @RequestBody TaskScheduleRequestDTO dto, @AuthenticationPrincipal Jwt jwt) {
+        var result = taskService.updateTaskSchedule(id, dto, jwt.getSubject());
+        return ResponseEntity.ok(result);
+    }
 
 }

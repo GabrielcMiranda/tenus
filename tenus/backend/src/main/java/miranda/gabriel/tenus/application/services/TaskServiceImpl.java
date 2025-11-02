@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import miranda.gabriel.tenus.adapters.inbounds.dto.address.AddressRequestDTO;
 import miranda.gabriel.tenus.adapters.inbounds.dto.task.TaskRequestDTO;
 import miranda.gabriel.tenus.adapters.inbounds.dto.task.TaskResponseDTO;
+import miranda.gabriel.tenus.adapters.inbounds.dto.task.TaskScheduleRequestDTO;
 import miranda.gabriel.tenus.adapters.inbounds.dto.task.TaskSummaryDTO;
 import miranda.gabriel.tenus.application.usecases.AuthUseCases;
 import miranda.gabriel.tenus.application.usecases.ImageUsecases;
@@ -190,5 +191,37 @@ public class TaskServiceImpl implements TaskUsecases{
         task.setEndTime(dto.getEndTime());
 
         taskRepository.save(task);
+    }
+
+    @Transactional
+    public String updateTaskSchedule(Long taskId, TaskScheduleRequestDTO dto, String userId) {
+        var user = authService.validateUserId(userId);
+
+        var task = taskRepository.findById(taskId)
+            .orElseThrow(() -> new TenusExceptions.TaskNotFoundException(taskId));
+
+        if(!task.getBoard().getOwner().getId().equals(user.getId())) {
+            throw new TenusExceptions.UnauthorizedOperationException("User does not have access to this task");
+        }
+
+        if(dto.startTime().isBefore(user.getMessageTime()) || dto.endTime().isBefore(user.getMessageTime())) {
+            throw new TenusExceptions.BusinessRuleViolationException("Task time cannot be before user's message time");
+        }
+
+        if(dto.endTime().isBefore(dto.startTime())) {
+            throw new TenusExceptions.BusinessRuleViolationException("Task end time cannot be before start time");
+        }
+
+        if(dto.date().isBefore(LocalDate.now())) {
+            throw new TenusExceptions.BusinessRuleViolationException("Task date cannot be in the past");
+        }
+
+        task.setDate(dto.date());
+        task.setStartTime(dto.startTime());
+        task.setEndTime(dto.endTime());
+
+        taskRepository.save(task);
+
+        return "Task schedule updated successfully";
     }
 }

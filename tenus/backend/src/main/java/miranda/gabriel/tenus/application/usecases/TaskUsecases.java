@@ -5,6 +5,7 @@ import java.util.List;
 import miranda.gabriel.tenus.adapters.inbounds.dto.address.AddressRequestDTO;
 import miranda.gabriel.tenus.adapters.inbounds.dto.task.TaskRequestDTO;
 import miranda.gabriel.tenus.adapters.inbounds.dto.task.TaskResponseDTO;
+import miranda.gabriel.tenus.adapters.inbounds.dto.task.TaskScheduleRequestDTO;
 import miranda.gabriel.tenus.adapters.inbounds.dto.task.TaskSummaryDTO;
 
 public interface TaskUsecases {
@@ -18,5 +19,7 @@ public interface TaskUsecases {
     public AddressRequestDTO getTaskAddress(Long taskId, String userId);
 
     public void updateTaskDTO(Long boardId, Long taskId, TaskRequestDTO dto, String userId);
+
+    public String updateTaskSchedule(Long taskId, TaskScheduleRequestDTO dto, String userId);
 
 }
