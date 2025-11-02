@@ -92,13 +92,18 @@ function Start-Development {
     }
     
     try {
-        # Subir apenas PostgreSQL
-        Write-Info "🐘 Subindo PostgreSQL..."
-        docker compose -f ".\tenus\docker\docker-compose.yml" --env-file ".\tenus\docker\.env" up postgres -d
+        # Subir PostgreSQL e Redis
+        Write-Info "🐘 Subindo PostgreSQL e Redis..."
+        docker compose -f ".\tenus\docker\docker-compose.yml" --env-file ".\tenus\docker\.env" up postgres redis -d
         
         # Aguardar PostgreSQL ficar saudável
         if (-not (Wait-ForHealthyService "postgres" 60)) {
             throw "PostgreSQL não ficou saudável"
+        }
+        
+        # Aguardar Redis ficar saudável
+        if (-not (Wait-ForHealthyService "redis" 60)) {
+            throw "Redis não ficou saudável"
         }
         
         # Compilar projeto (se não especificado para pular)
