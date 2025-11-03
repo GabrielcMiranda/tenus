@@ -21,9 +21,7 @@ public class AiAgentController {
     private final AiAgentUseCases aiAgentService;
 
     @PostMapping("/schedule-task")
-    public ResponseEntity<AiTaskScheduleResponseDTO> scheduleTask(
-            @RequestBody AiTaskScheduleRequestDTO dto,
-            @AuthenticationPrincipal Jwt jwt) {
+    public ResponseEntity<AiTaskScheduleResponseDTO> scheduleTask(@RequestBody AiTaskScheduleRequestDTO dto, @AuthenticationPrincipal Jwt jwt) {
         
         AiTaskScheduleResponseDTO response = aiAgentService.scheduleTaskWithAi(dto, jwt.getSubject());
         

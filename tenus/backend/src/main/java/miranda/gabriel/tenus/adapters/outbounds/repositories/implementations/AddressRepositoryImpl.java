@@ -21,4 +21,9 @@ public class AddressRepositoryImpl implements AddressRepository{
         var savedEntity = jpaAddressRepository.save(entity);
         return addressMapper.toDomain(savedEntity);
     }
+
+    @Override
+    public Double calculateDistanceInMeters(Long addressId, Double userLatitude, Double userLongitude) {
+        return jpaAddressRepository.calculateDistanceInMeters(addressId, userLatitude, userLongitude);
+    }
 }
